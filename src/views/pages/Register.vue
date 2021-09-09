@@ -14,11 +14,11 @@
               max-width="30px"
               alt="logo"
               contain
-              class="me-3 "
+              class="me-3"
             ></v-img>
 
             <h2 class="text-2xl font-weight-semibold">
-              Materio
+              AlitaSystem
             </h2>
           </router-link>
         </v-card-title>
@@ -88,10 +88,8 @@
 
         <!-- create new account  -->
         <v-card-text class="d-flex align-center justify-center flex-wrap mt-2">
-          <span class="me-2">
-            Already have an account?
-          </span>
-          <router-link :to="{ name:'pages-login' }">
+          <span class="me-2"> Already have an account? </span>
+          <router-link :to="{ name: 'pages-login' }">
             Sign in instead
           </router-link>
         </v-card-text>
@@ -99,12 +97,12 @@
         <!-- divider -->
         <v-card-text class="d-flex align-center mt-2">
           <v-divider></v-divider>
-          <span class="mx-5">or</span>
+          <span class="mx-5">Alita System</span>
           <v-divider></v-divider>
         </v-card-text>
 
         <!-- social link -->
-        <v-card-actions class="d-flex justify-center">
+        <!-- <v-card-actions class="d-flex justify-center">
           <v-btn
             v-for="link in socialLink"
             :key="link.icon"
@@ -115,7 +113,7 @@
               {{ link.icon }}
             </v-icon>
           </v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
       </v-card>
     </div>
 
@@ -123,8 +121,8 @@
     <img
       class="auth-mask-bg"
       height="190"
-      :src="require(`@/assets/images/misc/mask-${$vuetify.theme.dark ? 'dark':'light'}.png`)"
-    >
+      :src="require(`@/assets/images/misc/mask-${$vuetify.theme.dark ? 'dark' : 'light'}.png`)"
+    />
 
     <!-- tree -->
     <v-img
@@ -146,7 +144,8 @@
 
 <script>
 // eslint-disable-next-line object-curly-newline
-import { mdiFacebook, mdiTwitter, mdiGithub, mdiGoogle, mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
+// import { mdiFacebook, mdiTwitter, mdiGithub, mdiGoogle, mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
+import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { ref } from '@vue/composition-api'
 
 export default {
@@ -155,35 +154,35 @@ export default {
     const username = ref('')
     const email = ref('')
     const password = ref('')
-    const socialLink = [
-      {
-        icon: mdiFacebook,
-        color: '#4267b2',
-        colorInDark: '#4267b2',
-      },
-      {
-        icon: mdiTwitter,
-        color: '#1da1f2',
-        colorInDark: '#1da1f2',
-      },
-      {
-        icon: mdiGithub,
-        color: '#272727',
-        colorInDark: '#fff',
-      },
-      {
-        icon: mdiGoogle,
-        color: '#db4437',
-        colorInDark: '#db4437',
-      },
-    ]
+
+    // const socialLink = [
+    //   {
+    //     icon: mdiFacebook,
+    //     color: '#4267b2',
+    //     colorInDark: '#4267b2',
+    //   },
+    //   {
+    //     icon: mdiTwitter,
+    //     color: '#1da1f2',
+    //     colorInDark: '#1da1f2',
+    //   },
+    //   {
+    //     icon: mdiGithub,
+    //     color: '#272727',
+    //     colorInDark: '#fff',
+    //   },
+    //   {
+    //     icon: mdiGoogle,
+    //     color: '#db4437',
+    //     colorInDark: '#db4437',
+    //   },
+    // ]
 
     return {
       isPasswordVisible,
       username,
       email,
       password,
-      socialLink,
 
       icons: {
         mdiEyeOutline,

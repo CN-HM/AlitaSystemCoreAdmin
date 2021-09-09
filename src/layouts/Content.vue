@@ -27,7 +27,7 @@
           <v-spacer></v-spacer>
 
           <!-- Right Content -->
-          <a
+          <!-- <a
             href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
             target="_blank"
             rel="nofollow"
@@ -35,7 +35,7 @@
             <v-icon class="ms-6 me-4">
               {{ icons.mdiGithub }}
             </v-icon>
-          </a>
+          </a> -->
           <theme-switcher></theme-switcher>
           <v-btn
             icon
@@ -68,6 +68,9 @@
       <div class="boxed-container w-full">
         <div class="mx-6 d-flex justify-space-between">
           <span>
+            &copy; Developed By AlitaSystem Team </span>
+
+          <!-- <span>
             &copy; 2021 <a
               href="https://themeselection.com"
               class="text-decoration-none"
@@ -89,7 +92,7 @@
               target="_blank"
               class="text--secondary text-decoration-none"
             >MIT Licence</a>
-          </span>
+          </span> -->
         </div>
       </div>
     </v-footer>

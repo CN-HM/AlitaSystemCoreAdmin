@@ -56,5 +56,7 @@ module.exports = {
     ],
 
     'global-require': 'off',
+
+    'vue/max-attributes-per-line':'error'
   },
 }
