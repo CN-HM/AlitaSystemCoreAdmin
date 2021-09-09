@@ -1,13 +1,16 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import { getLocal } from '@/utils/auth'
 
-// create an axios instance
+// create an axios instance 创建axios实例
 const service = axios.create({
+  validateStatus(status) {
+    return status >= 200 && status < 504 // 设置默认的合法的状态
+  },
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000, // request timeout
+  timeout: 10000, // request timeout
 })
 
 // request interceptor
@@ -19,7 +22,7 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      this.headers['Authorization'] = getToken()
+      this.headers.Authorization = getLocal()
     }
 
     return config
@@ -32,7 +35,7 @@ service.interceptors.request.use(
   },
 )
 
-// response interceptor
+// response interceptor 拦截器
 service.interceptors.response.use(
 
   /**
@@ -49,7 +52,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
+    if (res.code !== 200) {
       Message({
         message: res.message || 'Error',
         type: 'error',
