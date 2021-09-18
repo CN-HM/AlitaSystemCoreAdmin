@@ -147,6 +147,14 @@ import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { ref } from '@vue/composition-api'
 
 export default {
+  methods: {
+    login() {
+      this.$store.dispatch('message/info', {
+        msg: '瓦拉伊利五路',
+        color: 'primary',
+      })
+    },
+  },
   setup() {
     const isPasswordVisible = ref(false)
     const email = ref('')
@@ -176,15 +184,12 @@ export default {
     // ]
 
     // 登录
-    const login = () => {
-      console.log(123)
-    }
 
     return {
       isPasswordVisible,
       email,
       password,
-      login, // 登录方法
+
       // socialLink,
 
       icons: {

@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getLocal } from '@/utils/auth'
+import Message from '@/components/Message.vue'
 
 // create an axios instance 创建axios实例
 const service = axios.create({
@@ -53,24 +53,22 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 200) {
-      Message({
-        message: res.message || 'Error',
-        type: 'error',
-        duration: 5 * 1000,
-      })
-
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        // to re-login
-        MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
-          type: 'warning',
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
-        })
+      switch (res.code) {
+        case 401:
+          Message.error('无权限访问该页面~')
+          break
+        case 403:
+          Message.error('未授权~')
+          break
+        case 404:
+          Message.error('接口不存在~')
+          break
+        case 500:
+          Message.error('接口罢工啦，请联系开发人员~')
+          break
+        default:
+          Message.error('未知错误，请联系开发人员~')
+          break
       }
 
       return Promise.reject(new Error(res.message || 'Error'))
@@ -80,11 +78,8 @@ service.interceptors.response.use(
   },
   error => {
     console.log(`err${error}`) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000,
-    })
+
+    Message.error(error.message)
 
     return Promise.reject(error)
   },

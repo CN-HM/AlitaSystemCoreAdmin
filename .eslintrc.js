@@ -57,6 +57,8 @@ module.exports = {
 
     'global-require': 'off',
 
-    'vue/max-attributes-per-line':'error'
+    'vue/max-attributes-per-line':'error',
+
+    "no-plusplus": 'off'
   },
 }
