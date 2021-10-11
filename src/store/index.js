@@ -1,15 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import message from '@/store/modules/message'
+import getters from './getters'
 
-// 放置全局信息
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {
-    message,
-  },
+// https://webpack.js.org/guides/dependency-management/#requirecontext
+const modulesFiles = require.context('./modules', true, /\.js$/)
+
+// you do not need `import app from './modules/app'`
+// it will auto require all vuex module from modules file
+const modules = modulesFiles.keys().reduce((item, modulePath) => {
+  const res = item
+
+  // set './app.js' => 'app'
+  const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1')
+  const value = modulesFiles(modulePath)
+  res[moduleName] = value.default
+
+  return res
+}, {})
+
+const store = new Vuex.Store({
+  modules,
+  getters,
 })
+
+export default store

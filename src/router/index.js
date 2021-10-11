@@ -44,7 +44,7 @@ const routes = [
     component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
   },
   {
-    path: '/pages/login',
+    path: '/login',
     name: 'pages-login',
     component: () => import('@/views/pages/Login.vue'),
     meta: {
@@ -78,5 +78,11 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 })
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export const resetRouter = () => {
+  const newRouter = router
+  router.matcher = newRouter.matcher // reset router
+}
 
 export default router

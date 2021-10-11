@@ -35,18 +35,23 @@
 
         <!-- login form -->
         <v-card-text>
-          <v-form>
+          <v-form
+            ref="loginForm"
+            lazy-validation
+          >
             <v-text-field
-              v-model="email"
+              v-model="loginFormData.username"
               outlined
-              label="Email"
-              placeholder="john@example.com"
+              :rules="loginRules.nameRules"
+              label="UserName"
+              placeholder="username"
               hide-details
               class="mb-3"
             ></v-text-field>
 
             <v-text-field
-              v-model="password"
+              v-model="loginFormData.password"
+              :rules="loginRules.passwordRules"
               outlined
               :type="isPasswordVisible ? 'text' : 'password'"
               label="Password"
@@ -72,10 +77,11 @@
             </div>
 
             <v-btn
+              :loading="loginLoading"
               block
               color="primary"
               class="mt-6"
-              @click.prevent="login"
+              @click.prevent="handleLogin"
             >
               Login
             </v-btn>
@@ -145,20 +151,42 @@
 // import { mdiFacebook, mdiTwitter, mdiGithub, mdiGoogle, mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { ref } from '@vue/composition-api'
+import { validUserName, validUserPassword } from '@/utils/validate'
 
 export default {
   methods: {
-    login() {
-      this.$store.dispatch('message/info', {
-        msg: '瓦拉伊利五路',
-        color: 'primary',
-      })
+    handleLogin() {
+      if (this.$refs.loginForm.validate()) {
+        // 开启loading
+        this.loginLoading = true
+
+        this.$store.dispatch('user/login', this.loginFormData)
+          .then(res => {
+            console.log(res)
+            this.$store.dispatch('message/success', '登陆成功!!!')
+            setTimeout(() => {
+              // 跳转首页
+              this.$router.push({ name: 'dashboard' })
+            }, 1500)
+          })
+          .catch(() => {
+
+          })
+          .finally(() => {
+            this.loginLoading = false
+          })
+
+        return true
+      }
+
+      // 弹出提示框
+      this.$store.dispatch('message/warning', 'Error submit!!!')
+
+      return false
     },
   },
   setup() {
     const isPasswordVisible = ref(false)
-    const email = ref('')
-    const password = ref('')
 
     // const socialLink = [
     //   {
@@ -184,11 +212,17 @@ export default {
     // ]
 
     // 登录
-
     return {
       isPasswordVisible,
-      email,
-      password,
+      loginFormData: {
+        username: '',
+        password: '',
+      },
+      loginRules: {
+        nameRules: validUserName(),
+        passwordRules: validUserPassword(),
+      },
+      loginLoading: false,
 
       // socialLink,
 

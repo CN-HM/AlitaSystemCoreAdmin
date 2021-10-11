@@ -1,8 +1,12 @@
-export const setLocal = (key, value) => {
+const TokenKey = 'User-Token'
+
+export const setToken = value => {
   if (typeof value === 'object') {
     this.value = JSON.stringify(value)
   }
-  localStorage.setItem(key, value)
+  localStorage.setItem(TokenKey, value)
 }
 
-export const getLocal = key => localStorage.getItem(key)
+export const removeToken = () => localStorage.removeItem(TokenKey)
+
+export const getToken = () => localStorage.getItem(TokenKey)

@@ -22,53 +22,39 @@ const message = {
       state.visible = true
       state.msg = options.msg
       state.color = options.color
-
-      // setTimeout(() => {
-      //   state.visible = false
-      // }, state.timeout)
     },
-
-    // CLOSE_SNACKBAR(state) {
-    //   state.visible = false
-    // },
-    // setShowClose(state, isShow) {
-    //   state.showClose = isShow
-    // },
-    // setTimeout(state, timeout) {
-    //   state.timeout = timeout
-    // },
   },
 
   // 逻辑处理,异步函数
   actions: {
-    success(context, options) {
+    success(context, msg) {
       return new Promise(() => {
         context.commit('OPEN_SNACKBAR', {
-          msg: options.msg,
+          msg,
           color: 'success',
         })
       })
     },
-    error(context, options) {
+    error(context, msg) {
       return new Promise(() => {
         context.commit('OPEN_SNACKBAR', {
-          msg: options.msg,
+          msg,
           color: 'error',
         })
       })
     },
-    warning(context, options) {
+    warning(context, msg) {
       return new Promise(() => {
         context.commit('OPEN_SNACKBAR', {
-          msg: options.msg,
+          msg,
           color: 'warning',
         })
       })
     },
-    info(context, options) {
+    info(context, msg) {
       return new Promise(() => {
         context.commit('OPEN_SNACKBAR', {
-          msg: options.msg,
+          msg,
           color: 'accent',
         })
       })
