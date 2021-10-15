@@ -161,8 +161,7 @@ export default {
         this.loginLoading = true
 
         this.$store.dispatch('user/login', this.loginFormData)
-          .then(res => {
-            console.log(res)
+          .then(() => {
             this.$store.dispatch('message/success', '登陆成功!!!')
             setTimeout(() => {
               // 跳转首页

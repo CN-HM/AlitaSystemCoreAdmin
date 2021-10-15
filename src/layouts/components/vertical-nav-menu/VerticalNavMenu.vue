@@ -84,6 +84,11 @@
         :icon="icons.mdiCreditCardOutline"
       ></nav-menu-link>
       <nav-menu-link
+        title="权限管理"
+        :to="{ name: 'permission' }"
+        :icon="icons.mdiCreditCardOutline"
+      ></nav-menu-link>
+      <nav-menu-link
         title="Tables"
         :to="{ name: 'simple-table' }"
         :icon="icons.mdiTable"

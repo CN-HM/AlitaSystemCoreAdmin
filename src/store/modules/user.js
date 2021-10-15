@@ -1,4 +1,4 @@
-import { login, logout } from '@/api/user'
+import { login } from '@/api/user'
 import { removeToken, setToken, getToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -39,6 +39,7 @@ const mutations = {
   },
   SET_ROLES: (rqState, roles) => {
     const res = rqState
+    console.log(roles)
     res.roles = roles
   },
 }
@@ -84,23 +85,15 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, rqState, dispatch }) {
-    return new Promise((resolve, reject) => {
-      logout(rqState.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
+  logout({ commit, dispatch }) {
+    commit('SET_TOKEN', '')
+    commit('SET_ROLES', [])
+    removeToken()
+    resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
-
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
+    // reset visited views and cached views 重置访问视图和缓存视图
+    // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+    dispatch('tagsView/delAllViews', null, { root: true })
   },
 
   // remove token
@@ -113,7 +106,7 @@ const actions = {
     })
   },
 
-  // dynamically modify permissions
+  // dynamically modify permissions 动态修改权限
   async changeRoles({ commit, dispatch }, role) {
     const localStorage = `${role}-localStorage`
 
@@ -124,13 +117,13 @@ const actions = {
 
     resetRouter()
 
-    // generate accessible routes map based on roles
+    // generate accessible routes map based on roles 根据角色生成可访问的路线图
     const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
 
-    // dynamically add accessible routes
+    // dynamically add accessible routes 动态添加可访问的路由
     router.addRoutes(accessRoutes)
 
-    // reset visited views and cached views
+    // reset visited views and cached views 重置访问视图和缓存视图
     dispatch('tagsView/delAllViews', null, { root: true })
   },
 }
