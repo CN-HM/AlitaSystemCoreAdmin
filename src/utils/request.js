@@ -10,13 +10,15 @@ const errorFun = error => {
   return Promise.reject(error)
 }
 
-const requestConfig = config => {
+const requestConfig = reConfig => {
+  const config = reConfig
+
   // do something before request is sent
   if (store.getters.token) {
     // let each request carry token
     // ['X-Token'] is a custom headers key
     // please modify it according to the actual situation
-    this.headers.Authorization = getToken()
+    config.headers.Authorization = `Bearer ${getToken()}`
   }
 
   return config

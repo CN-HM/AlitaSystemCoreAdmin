@@ -154,7 +154,28 @@ import { ref } from '@vue/composition-api'
 import { validUserName, validUserPassword } from '@/utils/validate'
 
 export default {
+  watch: {
+    $route: {
+      handler(route) {
+        const { query } = route
+        if (query) {
+          this.redirect = query.redirect
+          this.otherQuery = this.getOtherQuery(query)
+        }
+      },
+      immediate: true,
+    },
+  },
   methods: {
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== 'redirect') {
+          acc[cur] = query[cur]
+        }
+
+        return acc
+      }, {})
+    },
     handleLogin() {
       if (this.$refs.loginForm.validate()) {
         // 开启loading
@@ -163,9 +184,10 @@ export default {
         this.$store.dispatch('user/login', this.loginFormData)
           .then(() => {
             this.$store.dispatch('message/success', '登陆成功!!!')
+
             setTimeout(() => {
               // 跳转首页
-              this.$router.push({ name: 'dashboard' })
+              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
             }, 1500)
           })
           .catch(() => {
@@ -222,13 +244,12 @@ export default {
         passwordRules: validUserPassword(),
       },
       loginLoading: false,
-
-      // socialLink,
-
       icons: {
         mdiEyeOutline,
         mdiEyeOffOutline,
       },
+      redirect: undefined,
+      otherQuery: {},
     }
   },
 }

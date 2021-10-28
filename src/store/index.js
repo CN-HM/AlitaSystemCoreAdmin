@@ -21,6 +21,7 @@ const modules = modulesFiles.keys().reduce((item, modulePath) => {
 }, {})
 
 const store = new Vuex.Store({
+  strict: true, // 严格模式
   modules,
   getters,
 })

@@ -9,13 +9,20 @@
         </v-card-text>
         <v-card-text>
           <template>
+            <!-- 表格 -->
             <v-data-table
               :headers="headers"
               :items="desserts"
-              sort-by="calories"
-              class="elevation-1"
+              :page.sync="page"
+              :items-per-page="itemsPerPage"
               :search="search"
+              group-by="controllerName"
+              multi-sort
+              hide-default-footer
+              class="elevation-1"
+              @page-count="pageCount = $event"
             >
+              <!-- 表格工具栏 -->
               <template v-slot:top>
                 <v-toolbar
                   flat
@@ -49,8 +56,8 @@
                               md="4"
                             >
                               <v-text-field
-                                v-model="editedItem.name"
-                                label="Dessert name"
+                                v-model="editedItem.controllerName"
+                                label="控制器名称"
                               ></v-text-field>
                             </v-col>
                             <v-col
@@ -59,8 +66,8 @@
                               md="4"
                             >
                               <v-text-field
-                                v-model="editedItem.calories"
-                                label="Calories"
+                                v-model="editedItem.controller"
+                                label="控制器"
                               ></v-text-field>
                             </v-col>
                             <v-col
@@ -69,8 +76,8 @@
                               md="4"
                             >
                               <v-text-field
-                                v-model="editedItem.fat"
-                                label="Fat (g)"
+                                v-model="editedItem.actionName"
+                                label="Action名称"
                               ></v-text-field>
                             </v-col>
                             <v-col
@@ -79,19 +86,22 @@
                               md="4"
                             >
                               <v-text-field
-                                v-model="editedItem.carbs"
-                                label="Carbs (g)"
+                                v-model="editedItem.action"
+                                label="Action"
                               ></v-text-field>
                             </v-col>
+                          </v-row>
+                          <v-row>
                             <v-col
-                              cols="12"
+                              cols="24"
                               sm="6"
                               md="4"
                             >
-                              <v-text-field
-                                v-model="editedItem.protein"
-                                label="Protein (g)"
-                              ></v-text-field>
+                              <v-switch
+                                v-model="editedItem.isDeleted"
+                                color="primary"
+                                label="是否禁用"
+                              ></v-switch>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -104,14 +114,14 @@
                           text
                           @click="close"
                         >
-                          Cancel
+                          取消
                         </v-btn>
                         <v-btn
-                          color="blue darken-1"
+                          color="primary"
                           text
                           @click="save"
                         >
-                          Save
+                          保存
                         </v-btn>
                       </v-card-actions>
                     </v-card>
@@ -119,19 +129,28 @@
                   <v-spacer></v-spacer>
                   <v-text-field
                     v-model="search"
-                    append-icon="mdi-magnify"
-                    label="Search"
+                    label="搜索"
                     single-line
                     hide-details
-                  ></v-text-field>
+                  >
+                    <v-icon
+                      slot="append"
+                      color="red"
+                    >
+                      {{ icons.mdiMagnify }}
+                    </v-icon>
+                  </v-text-field>
                   <v-dialog
                     v-model="dialogDelete"
                     max-width="500px"
                   >
                     <v-card>
-                      <v-card-title class="text-h5">
-                        你确定要删除这个对象吗?
+                      <v-card-title>
+                        <span class="text-h5">删除</span>
                       </v-card-title>
+                      <v-card-text>
+                        你确定要删除这个对象吗?
+                      </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
@@ -139,28 +158,28 @@
                           text
                           @click="closeDelete"
                         >
-                          Cancel
+                          取消
                         </v-btn>
                         <v-btn
-                          color="blue darken-1"
+                          color="primary"
                           text
                           @click="deleteItemConfirm"
                         >
-                          OK
+                          确认
                         </v-btn>
-                        <v-spacer></v-spacer>
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
                 </v-toolbar>
               </template>
+              <!-- 表格操作栏 -->
               <template v-slot:[`item.actions`]="{ item }">
                 <v-icon
                   small
                   class="mr-2"
                   @click="editItem(item)"
                 >
-                  {{ icons.mdiCircleEditOutline }}
+                  {{ icons.mdiPencil }}
                 </v-icon>
                 <v-icon
                   small
@@ -169,15 +188,28 @@
                   {{ icons.mdiDelete }}
                 </v-icon>
               </template>
-              <template v-slot:no-data>
-                <v-btn
-                  color="primary"
-                  @click="initialize"
+              <!-- 自定义表头 -->
+              <template v-slot:[`item.isDeleted`]="{ item }">
+                <v-chip
+                  :color="getColor(item.isDeleted)"
                 >
-                  Reset
-                </v-btn>
+                  {{ item.isDeleted === 0 ? '正常' : '禁用' }}
+                </v-chip>
               </template>
             </v-data-table>
+            <div class="text-center pt-2">
+              <v-row justify="center">
+                <v-col cols="6">
+                  <v-container class="max-width">
+                    <v-pagination
+                      v-model="page"
+                      circle
+                      :length="pageCount"
+                    ></v-pagination>
+                  </v-container>
+                </v-col>
+              </v-row>
+            </div>
           </template>
         </v-card-text>
       </v-card>
@@ -186,7 +218,12 @@
 </template>
 
 <script>
-import { mdiMagnify, mdiCircleEditOutline, mdiDelete } from '@mdi/js'
+import {
+  mdiMagnify, mdiPencil, mdiCircleEditOutline, mdiDelete,
+} from '@mdi/js'
+import {
+  getAllPermissions, DeletePermissions, PutPermissions, PostPermissions,
+} from '@/api/permission'
 
 export default {
   data: () => ({
@@ -195,45 +232,71 @@ export default {
     dialogDelete: false,
     headers: [
       {
-        text: 'Dessert (100g serving)',
-        align: 'start',
-        sortable: false,
-        value: 'name',
+        text: '控制器名称', align: 'start', value: 'controllerName', sortable: true,
       },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
-      { text: 'Actions', value: 'actions', sortable: false },
+      {
+        text: '控制器', align: 'start', value: 'controller', sortable: true,
+      },
+      {
+        text: 'Action名称', align: 'start', value: 'actionName', sortable: true,
+      },
+      {
+        text: 'Action', align: 'start', value: 'action', sortable: true,
+      },
+      {
+        text: '是否禁用', align: 'start', value: 'isDeleted', sortable: true,
+      },
+      {
+        text: '创建时间', align: 'start', value: 'createdTime', sortable: true,
+      },
+      {
+        text: '创建人', align: 'start', value: 'createdUserName', sortable: true,
+      },
+      {
+        text: '更新时间', align: 'start', value: 'updatedTime', sortable: true,
+      },
+      {
+        text: '更新人', align: 'start', value: 'updatedUserName', sortable: true,
+      },
+      { text: '操作', value: 'actions', sortable: false },
     ],
     desserts: [],
     editedIndex: -1,
     editedItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      // TODO 對接後臺接口
+      action: '',
+      actionName: '',
+      controller: '',
+      controllerName: '',
+      isDeleted: 0,
     },
     defaultItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      action: '',
+      actionName: '',
+      controller: '',
+      controllerName: '',
+      createdTime: '',
+      createdUserId: 1,
+      createdUserName: '',
+      isDeleted: 0,
+      updatedTime: '',
+      updatedUserId: 1,
+      updatedUserName: '',
     },
-
-    // Icons
     icons: {
       mdiMagnify,
+      mdiPencil,
       mdiCircleEditOutline,
       mdiDelete,
     },
+    page: 1,
+    pageCount: 0,
+    itemsPerPage: 30,
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+      return this.editedIndex === -1 ? '新增' : '编辑'
     },
   },
 
@@ -253,98 +316,28 @@ export default {
   },
 
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-        },
-      ]
+    getColor(isDeleted) {
+      return isDeleted === 0 ? 'success' : 'error'
     },
-
+    async initialize() {
+      const { response } = await getAllPermissions()
+      this.desserts = response
+    },
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = { ...item }
       this.dialog = true
     },
-
     deleteItem(item) {
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = { ...item }
       this.dialogDelete = true
     },
-
-    deleteItemConfirm() {
+    async deleteItemConfirm() {
+      await DeletePermissions(this.editedItem.id)
       this.desserts.splice(this.editedIndex, 1)
       this.closeDelete()
     },
-
     close() {
       this.dialog = false
       this.$nextTick(() => {
@@ -352,7 +345,6 @@ export default {
         this.editedIndex = -1
       })
     },
-
     closeDelete() {
       this.dialogDelete = false
       this.$nextTick(() => {
@@ -360,12 +352,14 @@ export default {
         this.editedIndex = -1
       })
     },
-
-    save() {
+    async save() {
+      this.editedItem.isDeleted = this.editedItem.isDeleted ? 1 : 0
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        const { response } = await PutPermissions(this.editedItem)
+        Object.assign(this.desserts[this.editedIndex], response)
       } else {
-        this.desserts.push(this.editedItem)
+        const { response } = await PostPermissions(this.editedItem)
+        this.desserts.push(response)
       }
       this.close()
     },

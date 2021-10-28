@@ -12,10 +12,9 @@ export const getAllUsers = () => request.adminService({
   method: 'get',
 })
 
-export const getUser = id => request.adminService({
-  url: 'api/Users',
+export const getUserInfo = () => request.adminService({
+  url: 'api/UserInfos',
   method: 'get',
-  params: { id },
 })
 
 export const updateUser = data => request.adminService({

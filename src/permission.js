@@ -33,19 +33,14 @@ router.beforeEach(async (to, from, next) => {
         next()
       } else {
         try {
-          store.dispatch('user/logout')
-
-          // next({ path: '/login' })
-
           // get user info 获取用户信息
-          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor'] 注意：角色必须是一个对象数组！ 例如：['admin'] 或 ,['developer','editor']
-          // const { roles } = await store.dispatch('user/getInfo')
+          const { permissions } = await store.dispatch('user/getUserInfo')
 
           // generate accessible routes map based on roles 根据角色生成可访问的路线图
-          // const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          const accessRoutes = await store.dispatch('permission/generateRoutes', permissions)
 
           // dynamically add accessible routes 动态添加可访问的路由
-          // router.addRoutes(store.getters.roles)
+          router.addRoutes(accessRoutes)
 
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record
@@ -55,7 +50,10 @@ router.beforeEach(async (to, from, next) => {
           await store.dispatch('user/resetToken')
           store.dispatch('message/warning', error || 'Has Error')
 
-          next(`/login?redirect=${to.path}`)
+          setTimeout(() => {
+            next(`/login?redirect=${to.path}`)
+          }, 1000)
+
           NProgress.done()
         }
       }

@@ -2,16 +2,24 @@ import request from '@/utils/request'
 
 // 获取所有权限
 export const getAllPermissions = () => request.adminService({
-  url: 'api/Permission/get',
+  url: 'api/Permissions',
   method: 'get',
 })
 
-export const Permissions = () => request.adminService({
-  url: 'api/Permission/update',
-  method: 'get',
+export const PostPermissions = data => request.adminService({
+  url: 'api/Permissions',
+  method: 'post',
+  data,
 })
 
-export const getAllermissions = () => request.adminService({
-  url: 'api/Permission/get',
-  method: 'get',
+export const PutPermissions = data => request.adminService({
+  url: 'api/Permissions',
+  method: 'put',
+  data,
+})
+
+export const DeletePermissions = data => request.adminService({
+  url: 'api/Permissions',
+  method: 'delete',
+  data,
 })
