@@ -1,9 +1,12 @@
-import { login, getUserInfo } from '@/api/user'
-import { removeToken, setToken, getToken } from '@/utils/auth'
+import { login, getUserInfo } from '@/api/users'
+import {
+  removeToken, setToken, getToken, setRefreshToken, getRefreshToken,
+} from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
+  refreshToken: getRefreshToken(),
   name: '',
   avatar: '',
   introduction: '',
@@ -19,6 +22,10 @@ const mutations = {
   SET_TOKEN: (rqState, localStorage) => {
     const res = rqState
     res.token = localStorage
+  },
+  SET_REFRESHTOKEN: (rqState, localStorage) => {
+    const res = rqState
+    res.refreshToken = localStorage
   },
   SET_INTRODUCTION: (rqState, introduction) => {
     const res = rqState
@@ -45,9 +52,15 @@ const actions = {
 
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password }).then(res => {
-        const token = res.response
+        const { token, refreshToken } = res.response
+
+        // 设置基本token
         commit('SET_TOKEN', token)
         setToken(token)
+
+        // 设置刷新token
+        commit('SET_REFRESHTOKEN', refreshToken)
+        setRefreshToken(refreshToken)
         resolve()
       }).catch(error => {
         reject(error)
@@ -58,6 +71,7 @@ const actions = {
   // user logout
   logout({ commit }) {
     commit('SET_TOKEN', '')
+    commit('SET_REFRESHTOKEN', '')
     commit('SET_PERMISSIONS', [])
     removeToken()
     resetRouter()
@@ -67,7 +81,6 @@ const actions = {
   getUserInfo({ commit }) {
     return new Promise((resolve, reject) => {
       getUserInfo().then(res => {
-        console.log(res)
         if (!res) {
           reject(new Error('Verification failed, please Login again.'))
         }
@@ -79,8 +92,6 @@ const actions = {
           mobile,
           id,
         } = res.response
-
-        console.log(permissions)
 
         // roles must be a non-empty array
         if (!permissions || permissions.length <= 0) {
@@ -104,6 +115,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
+      commit('SET_REFRESHTOKEN', '')
       commit('SET_PERMISSIONS', [])
       removeToken()
       resolve()

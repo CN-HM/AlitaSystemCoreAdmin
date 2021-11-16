@@ -38,16 +38,16 @@
       class="vertical-nav-menu-items pr-5"
     >
       <nav-menu-link
-        title="Dashboard"
+        title="首页"
         :to="{ name: 'dashboard' }"
         :icon="icons.mdiHomeOutline"
       ></nav-menu-link>
       <nav-menu-link
-        title="Account Settings"
+        title="账户设置"
         :to="{ name: 'pages-account-settings'}"
         :icon="icons.mdiAccountCogOutline"
       ></nav-menu-link>
-      <nav-menu-group
+      <!-- <nav-menu-group
         title="Pages"
         :icon="icons.mdiFileOutline"
       >
@@ -66,6 +66,32 @@
           :to="{ name: 'error-404' }"
           target="_blank"
         ></nav-menu-link>
+      </nav-menu-group> -->
+      <nav-menu-group
+        title="人员管理"
+        :icon="icons.mdiShieldAccountOutline"
+      >
+        <nav-menu-link
+          title="用户管理"
+          :to="{ name: 'users' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="角色管理"
+          :to="{ name: 'roles' }"
+        ></nav-menu-link>
+      </nav-menu-group>
+      <nav-menu-group
+        title="权限管理"
+        :icon="icons.mdiShieldLockOutline"
+      >
+        <nav-menu-link
+          title="全局权限管理"
+          :to="{ name: 'permission' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="角色权限管理"
+          :to="{ name: 'rolesPermission' }"
+        ></nav-menu-link>
       </nav-menu-group>
       <nav-menu-section-title title="USER INTERFACE"></nav-menu-section-title>
       <nav-menu-link
@@ -81,11 +107,6 @@
       <nav-menu-link
         title="Cards"
         :to="{ name: 'cards' }"
-        :icon="icons.mdiCreditCardOutline"
-      ></nav-menu-link>
-      <nav-menu-link
-        title="权限管理"
-        :to="{ name: 'permission' }"
         :icon="icons.mdiCreditCardOutline"
       ></nav-menu-link>
       <nav-menu-link
@@ -118,6 +139,10 @@
 <script>
 // eslint-disable-next-line object-curly-newline
 import {
+  mdiShieldLockOutline,
+  mdiShieldAccountOutline,
+  mdiCardAccountDetailsOutline,
+
   mdiHomeOutline,
   mdiAlphaTBoxOutline,
   mdiEyeOutline,
@@ -146,6 +171,10 @@ export default {
   setup() {
     return {
       icons: {
+        mdiShieldAccountOutline,
+        mdiShieldLockOutline,
+        mdiCardAccountDetailsOutline,
+
         mdiHomeOutline,
         mdiAlphaTBoxOutline,
         mdiEyeOutline,

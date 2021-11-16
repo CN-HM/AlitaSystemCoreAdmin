@@ -18,8 +18,8 @@
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
 import {
-  getAllPermissions, deletePermissions, putPermissions, postPermissions,
-} from '@/api/permission'
+  getRoles, deleteRoles, putRoles, postRoles,
+} from '@/api/roles'
 
 export default {
   components: {
@@ -31,16 +31,10 @@ export default {
     dialogDelete: false,
     headers: [
       {
-        text: '控制器名称', align: 'start', value: 'controllerName', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
+        text: '角色名称', align: 'start', value: 'roleName', sortable: true, rules: [v => v.length > 0 || '请输入内容~'],
       },
       {
-        text: '控制器', align: 'start', value: 'controller', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
-      },
-      {
-        text: 'Action名称', align: 'start', value: 'actionName', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
-      },
-      {
-        text: 'Action', align: 'start', value: 'action', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
+        text: '描述', align: 'start', value: 'description', sortable: true, editType: 'textarea', rules: [v => v.length > 0 || '请输入内容~'],
       },
       {
         text: '创建时间', align: 'start', value: 'createdTime', sortable: true, hidden: true,
@@ -64,41 +58,37 @@ export default {
     desserts: [],
     editedIndex: -1,
     editedItem: {
-      action: '',
-      actionName: '',
-      controller: '',
-      controllerName: '',
+      roleName: '',
+      description: '',
       isDeleted: 0,
     },
     defaultItem: {
-      action: '',
-      actionName: '',
-      controller: '',
-      controllerName: '',
+      roleName: '',
+      description: '',
       isDeleted: 0,
     },
     page: 1,
     pageCount: 1,
     itemsPerPage: 15,
-    title: '权限管理',
-    titleDes: '权限管理页面用于配置权限的开启、关闭、编辑，权限不可删除。',
+    title: '角色管理',
+    titleDes: '角色管理页面用于配置角色信息。',
   }),
   methods: {
     async init() {
-      const { response } = await getAllPermissions()
+      const { response } = await getRoles()
 
       return response
     },
     async remove(id) {
-      await deletePermissions(id)
+      await deleteRoles(id)
     },
     async put(editedItem) {
-      const { response } = await putPermissions(editedItem)
+      const { response } = await putRoles(editedItem)
 
       return response
     },
     async post(editedItem) {
-      const { response } = await postPermissions(editedItem)
+      const { response } = await postRoles(editedItem)
 
       return response
     },

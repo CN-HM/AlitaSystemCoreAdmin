@@ -69,6 +69,21 @@ export const constantRoutes = [
     component: () => import('@/views/permission/Permission.vue'),
   },
   {
+    path: '/rolesPermission',
+    name: 'rolesPermission',
+    component: () => import('@/views/rolesPermission/RolesPermission.vue'),
+  },
+  {
+    path: '/roles',
+    name: 'roles',
+    component: () => import('@/views/roles/Roles.vue'),
+  },
+  {
+    path: '/users',
+    name: 'users',
+    component: () => import('@/views/users/Users.vue'),
+  },
+  {
     path: '/simple-table',
     name: 'simple-table',
     component: () => import('@/views/simple-table/SimpleTable.vue'),

@@ -26,7 +26,7 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else {
       // determine whether the user has obtained his permission roles through getInfo
-      console.log(store)
+
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
 
       if (hasRoles) {
@@ -42,8 +42,8 @@ router.beforeEach(async (to, from, next) => {
           // dynamically add accessible routes 动态添加可访问的路由
           router.addRoutes(accessRoutes)
 
-          // hack method to ensure that addRoutes is complete
-          // set the replace: true, so the navigation will not leave a history record
+          // hack method to ensure that addRoutes is complete hack方法以确保addRoutes是完整的
+          // set the replace: true, so the navigation will not leave a history record 设置replace:true，这样导航将不会留下历史记录
           next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login

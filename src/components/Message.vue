@@ -1,6 +1,6 @@
 <template>
   <v-snackbar
-    v-model="visible"
+    :value="visible"
     top
     text
     :color="color"

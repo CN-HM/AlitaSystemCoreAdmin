@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <message></message>
     <vertical-nav-menu :is-drawer-open.sync="isDrawerOpen"></vertical-nav-menu>
 
     <v-app-bar
@@ -105,12 +106,14 @@ import { mdiMagnify, mdiBellOutline, mdiGithub } from '@mdi/js'
 import VerticalNavMenu from './components/vertical-nav-menu/VerticalNavMenu.vue'
 import ThemeSwitcher from './components/ThemeSwitcher.vue'
 import AppBarUserMenu from './components/AppBarUserMenu.vue'
+import Message from '@/components/Message.vue'
 
 export default {
   components: {
     VerticalNavMenu,
     ThemeSwitcher,
     AppBarUserMenu,
+    Message,
   },
   setup() {
     const isDrawerOpen = ref(null)
@@ -143,7 +146,7 @@ export default {
 }
 
 .boxed-container {
-  max-width: 1440px;
+  max-width: 2880px;
   margin-left: auto;
   margin-right: auto;
 }
