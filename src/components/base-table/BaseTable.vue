@@ -13,7 +13,7 @@
             <v-data-table
               :loading="loading"
               fixed-header
-              :height="600"
+              height="41rem"
               :headers="baseHeaders"
               :items="desserts"
               :page.sync="basePage"
@@ -137,7 +137,7 @@
                   </v-text-field>
                   <v-dialog
                     v-model="dialogDelete"
-                    max-width="600px"
+                    max-width="628px"
                   >
                     <v-card>
                       <v-card-title>
@@ -201,7 +201,10 @@
                 </v-avatar>
               </template>
             </v-data-table>
-            <div class="text-center pt-2">
+            <div
+              class="text-center"
+              style="height:4rem"
+            >
               <v-row justify="center">
                 <v-col cols="6">
                   <v-container class="max-width">

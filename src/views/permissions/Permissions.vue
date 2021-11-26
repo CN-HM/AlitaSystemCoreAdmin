@@ -43,6 +43,9 @@ export default {
         text: 'Action', align: 'start', value: 'action', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
       },
       {
+        text: '描述', align: 'start', value: 'description', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
+      },
+      {
         text: '创建时间', align: 'start', value: 'createdTime', sortable: true, hidden: true,
       },
       {
@@ -64,6 +67,7 @@ export default {
     desserts: [],
     editedIndex: -1,
     editedItem: {
+      description: '',
       action: '',
       actionName: '',
       controller: '',
@@ -71,6 +75,7 @@ export default {
       isDeleted: 0,
     },
     defaultItem: {
+      description: '',
       action: '',
       actionName: '',
       controller: '',

@@ -53,7 +53,7 @@
     </v-app-bar>
 
     <v-main>
-      <div class="app-content-container boxed-container pa-6">
+      <div class="app-content-container boxed-container pa-5 pb-0">
         <slot></slot>
       </div>
     </v-main>
@@ -63,7 +63,7 @@
       inset
       color="transparent"
       absolute
-      height="56"
+      style="height:3rem"
       class="px-0"
     >
       <div class="boxed-container w-full">

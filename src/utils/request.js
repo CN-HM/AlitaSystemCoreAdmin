@@ -13,9 +13,6 @@ const errorFun = error => {
 const requestConfig = reConfig => {
   const config = reConfig
 
-  console.log(store.getters.token)
-  console.log(store.getters.refreshToken)
-
   // do something before request is sent
   if (store.getters.token && store.getters.refreshToken) {
     // let each request carry token
@@ -30,6 +27,7 @@ const requestConfig = reConfig => {
 
 const responseHandle = response => {
   const res = response.data
+  console.log(response)
 
   // if the custom status is not 20000, it is judged as an error.
   if (response.status !== 200) {
@@ -38,13 +36,16 @@ const responseHandle = response => {
         store.dispatch('message/error', `${res}~`)
         break
       case 401:
-        store.dispatch('message/error', '无权限访问该页面~')
+        store.dispatch('message/error', '无权限访问~')
         break
       case 403:
         store.dispatch('message/error', '未授权~')
         break
       case 404:
         store.dispatch('message/error', '接口不存在~')
+        break
+      case 405:
+        store.dispatch('message/error', '方法不被允许~')
         break
       case 500:
         store.dispatch('message/error', '接口罢工啦，请联系开发人员~')
@@ -65,7 +66,7 @@ const validateStatusHandle = status => status >= 200 && status < 504 // 设置�
 const timeoutNum = 10000
 
 // create an axios instance 创建axios实例
-const adminService = axios.create({
+export const adminService = axios.create({
   validateStatus(status) {
     return validateStatusHandle(status)
   },
@@ -74,7 +75,7 @@ const adminService = axios.create({
   timeout: timeoutNum, // request timeout
 })
 
-const miniAppService = axios.create({
+export const miniAppService = axios.create({
   validateStatus(status) {
     return validateStatusHandle(status)
   },
@@ -83,7 +84,7 @@ const miniAppService = axios.create({
   timeout: timeoutNum, // request timeout
 })
 
-const wcService = axios.create({
+export const wcService = axios.create({
   validateStatus(status) {
     return validateStatusHandle(status)
   },
@@ -160,9 +161,3 @@ wcService.interceptors.response.use(
   response => responseHandle(response),
   error => errorFun(error),
 )
-
-export default {
-  adminService,
-  wcService,
-  miniAppService,
-}

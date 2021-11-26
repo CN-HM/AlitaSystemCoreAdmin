@@ -12,7 +12,7 @@ const message = {
     color: '',
     visible: false,
     showClose: true,
-    timeout: 5000,
+    timeout: 2500,
     vertical: false,
   },
 
@@ -23,11 +23,18 @@ const message = {
       state.msg = options.msg
       state.color = options.color
     },
+    CLOSE_SNACKBAR(state) {
+      state.visible = false
+    },
   },
 
   // 逻辑处理,异步函数
   actions: {
     success(context, msg) {
+      setTimeout(() => {
+        context.commit('CLOSE_SNACKBAR')
+      }, context.state.timeout)
+
       return new Promise(() => {
         context.commit('OPEN_SNACKBAR', {
           msg,
@@ -36,6 +43,10 @@ const message = {
       })
     },
     error(context, msg) {
+      setTimeout(() => {
+        context.commit('CLOSE_SNACKBAR')
+      }, context.state.timeout)
+
       return new Promise(() => {
         context.commit('OPEN_SNACKBAR', {
           msg,
@@ -44,6 +55,10 @@ const message = {
       })
     },
     warning(context, msg) {
+      setTimeout(() => {
+        context.commit('CLOSE_SNACKBAR')
+      }, context.state.timeout)
+
       return new Promise(() => {
         context.commit('OPEN_SNACKBAR', {
           msg,
@@ -52,6 +67,10 @@ const message = {
       })
     },
     info(context, msg) {
+      setTimeout(() => {
+        context.commit('CLOSE_SNACKBAR')
+      }, context.state.timeout)
+
       return new Promise(() => {
         context.commit('OPEN_SNACKBAR', {
           msg,

@@ -64,14 +64,14 @@ export const constantRoutes = [
     component: () => import('@/views/cards/Card.vue'),
   },
   {
-    path: '/permission',
-    name: 'permission',
-    component: () => import('@/views/permission/Permission.vue'),
+    path: '/permissions',
+    name: 'permissions',
+    component: () => import('@/views/permissions/Permissions.vue'),
   },
   {
-    path: '/rolesPermission',
-    name: 'rolesPermission',
-    component: () => import('@/views/rolesPermission/RolesPermission.vue'),
+    path: '/rolePermissions',
+    name: 'rolePermissions',
+    component: () => import('@/views/rolePermissions/RolePermissions.vue'),
   },
   {
     path: '/roles',

@@ -4,7 +4,6 @@
     top
     text
     :color="color"
-    :timeout="timeout"
     :vertical="vertical"
   >
     {{ this.$store.state.message.msg }}
@@ -28,16 +27,8 @@ export default {
     vertical() {
       return this.$store.state.message.vertical
     },
-    timeout() {
-      return this.$store.state.message.timeout
-    },
-    visible: {
-      get() {
-        return this.$store.state.message.visible
-      },
-      set(val) {
-        this.$store.state.message.visible = val
-      },
+    visible() {
+      return this.$store.state.message.visible
     },
     showClose() {
       return this.$store.state.message.showClose

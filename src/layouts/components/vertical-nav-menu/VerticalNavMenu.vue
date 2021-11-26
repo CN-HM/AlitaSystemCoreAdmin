@@ -86,14 +86,40 @@
       >
         <nav-menu-link
           title="全局权限管理"
-          :to="{ name: 'permission' }"
+          :to="{ name: 'permissions' }"
         ></nav-menu-link>
         <nav-menu-link
           title="角色权限管理"
-          :to="{ name: 'rolesPermission' }"
+          :to="{ name: 'rolePermissions' }"
         ></nav-menu-link>
       </nav-menu-group>
-      <nav-menu-section-title title="USER INTERFACE"></nav-menu-section-title>
+      <nav-menu-section-title title="系统功能"></nav-menu-section-title>
+      <nav-menu-group
+        title="塔科夫管理"
+        :icon="icons.mdiControllerClassicOutline"
+      >
+        <nav-menu-link
+          title="全局权限管理"
+          :to="{ name: 'permissions' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="角色权限管理"
+          :to="{ name: 'rolePermissions' }"
+        ></nav-menu-link>
+      </nav-menu-group>
+      <nav-menu-group
+        title="微信用户管理"
+        :icon="icons.mdiAccountGroupOutline"
+      >
+        <nav-menu-link
+          title="微信用户"
+          :to="{ name: 'permissions' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="黑名单"
+          :to="{ name: 'rolePermissions' }"
+        ></nav-menu-link>
+      </nav-menu-group>
       <nav-menu-link
         title="Typography"
         :to="{ name: 'typography' }"
@@ -141,7 +167,8 @@
 import {
   mdiShieldLockOutline,
   mdiShieldAccountOutline,
-  mdiCardAccountDetailsOutline,
+  mdiControllerClassicOutline,
+  mdiAccountGroupOutline,
 
   mdiHomeOutline,
   mdiAlphaTBoxOutline,
@@ -173,8 +200,8 @@ export default {
       icons: {
         mdiShieldAccountOutline,
         mdiShieldLockOutline,
-        mdiCardAccountDetailsOutline,
-
+        mdiControllerClassicOutline,
+        mdiAccountGroupOutline,
         mdiHomeOutline,
         mdiAlphaTBoxOutline,
         mdiEyeOutline,

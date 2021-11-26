@@ -37,20 +37,45 @@
             </v-icon>
           </v-text-field>
         </v-toolbar>
-        <v-list>
+        <v-list
+          two-line
+          nav
+        >
           <v-list-item-group
+            v-model="selectedRoleId"
             color="primary"
           >
             <v-list-item
-              v-for="items in roleItems"
-              :key="items.roleName"
-              :disabled="items.isDeleted"
+              v-for="item in roleItems"
+              :key="item.roleName"
+              :value="item.id"
+              :disabled="item.isDeleted == 1"
+              @click="getPermissionsByRoleId(item.id)"
             >
               <v-list-item-avatar>
                 <v-icon>{{ icons.mdiAccountBox }}</v-icon>
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title v-text="items.roleName"></v-list-item-title>
+                <v-list-item-title v-text="item.roleName"></v-list-item-title>
+                <v-list-item-subtitle
+                  class="text--primary"
+                >
+                  {{ item.description }}
+                  <v-chip
+                    class="ma-1"
+                    :color="item.isDeleted == 1 ? 'warning' : 'success'"
+                    small
+                    :input-value="true"
+                  >
+                    <v-icon
+                      left
+                      small
+                    >
+                      {{ item.isDeleted == 1 ? icons.mdiCloseCircleOutline : icons.mdiCheckCircle }}
+                    </v-icon>
+                    {{ item.isDeleted == 1 ? '禁用' : '正常' }}
+                  </v-chip>
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -88,12 +113,15 @@
             </v-icon>
           </v-text-field>
         </v-toolbar>
-        <v-list three-line>
+        <v-list
+          two-line
+          nav
+          :disabled="selectedRoleId == null"
+        >
           <v-list-group
             v-for="items in permissionItems"
             :key="items.controllerName"
             :value="false"
-            three-line
           >
             <template v-slot:activator>
               <v-list-item-avatar>
@@ -103,29 +131,37 @@
                 <v-list-item-title>{{ items.controllerName }}</v-list-item-title>
                 <v-list-item-subtitle>
                   <v-chip
-                    color="success"
+                    v-for="item in items.permissionItems"
+                    :key="item.id"
+                    class="ma-1"
+                    :color="selectedPermissions.indexOf(item.id) !== -1 ? 'success' : 'warning'"
                     small
-                    filter
-                    outlined
                     :input-value="true"
-                    :filter-icon="icons.mdiCheckboxOutline"
                   >
-                    获取
+                    <v-icon
+                      left
+                      small
+                    >
+                      {{ selectedPermissions.indexOf(item.id) !== -1 ? icons.mdiCheckCircle : icons.mdiCloseCircleOutline }}
+                    </v-icon>
+                    {{ item.actionName }}
                   </v-chip>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </template>
             <v-list-item-group
+              v-model="selectedPermissions"
               multiple
               color="primary"
             >
               <v-list-item
                 v-for="permission in items.permissionItems"
                 :key="permission.id"
-                subheader
-                three-line
+                :value="permission.id"
                 flat
-                link
+                dense
+                nav
+                @change="permissionsChange(permission.id)"
               >
                 <template v-slot:default="{ active }">
                   <v-list-item-action>
@@ -147,45 +183,65 @@
 
 <script>
 import {
-  mdiAccountBox, mdiMagnify, mdiCheckboxOutline, mdiShieldLockOutline,
+  mdiAccountBox, mdiMagnify, mdiCheckCircle, mdiShieldLockOutline, mdiCloseCircleOutline,
 } from '@mdi/js'
 import getPermissionsTree from '@/api/permissionsTree'
+import { getRolePermissions, putRolePermissions } from '@/api/rolePermissions'
 import { getRoles } from '@/api/roles'
 
 export default {
   data: () => ({
+    selectedRoleId: undefined, // 选择的角色ID
+    selectedPermissions: [], // 选择的权限数组
     search: '',
     active: [],
-    avatar: null,
-    open: [],
-    roles: [],
     roleItems: [],
     permissionItems: [],
     icons: {
       mdiAccountBox,
       mdiMagnify,
-      mdiCheckboxOutline,
+      mdiCheckCircle,
       mdiShieldLockOutline,
+      mdiCloseCircleOutline,
     },
   }),
   computed: {
-    selected() {
-      if (!this.active.length) return undefined
-
-      const id = this.active[0]
-
-      return this.roles.find(user => user.id === id)
-    },
   },
   watch: {
-    selected: '',
   },
-  async created() {
-    this.roleItems = (await getRoles()).response
-
-    this.permissionItems = (await getPermissionsTree()).response
+  created() {
+    getRoles().then(res => {
+      const { response } = res
+      this.roleItems = response
+    })
+    getPermissionsTree().then(res => {
+      const { response } = res
+      this.permissionItems = response
+    })
   },
   methods: {
+    getColor(id) {
+      return this.selectedPermissions.indexOf(id) !== -1 ? 'success' : 'warning'
+    },
+    getPermissionsByRoleId(id) {
+      if (this.selectedRoleId === undefined) {
+        getRolePermissions(id).then(res => {
+          const { response } = res
+          this.selectedPermissions = response
+        })
+      } else {
+        this.selectedPermissions = []
+      }
+    },
+    permissionsChange(id) {
+      putRolePermissions({
+        RoleId: this.selectedRoleId,
+        PermissionId: id,
+      }).then(res => {
+        this.$store.dispatch('message/success', '权限设置成功~')
+        console.log(res)
+      })
+    },
   },
 
   // setup() {
