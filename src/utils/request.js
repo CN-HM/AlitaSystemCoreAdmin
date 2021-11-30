@@ -75,7 +75,7 @@ export const adminService = axios.create({
   timeout: timeoutNum, // request timeout
 })
 
-export const miniAppService = axios.create({
+export const tarkovService = axios.create({
   validateStatus(status) {
     return validateStatusHandle(status)
   },
@@ -117,13 +117,13 @@ adminService.interceptors.response.use(
 )
 
 // request interceptor 小程序接口
-miniAppService.interceptors.request.use(
+tarkovService.interceptors.request.use(
   config => requestConfig(config),
   error => errorFun(error),
 )
 
 // response interceptor 小程序接口拦截器
-miniAppService.interceptors.response.use(
+tarkovService.interceptors.response.use(
 
   /**
    * If you want to get http information such as headers or status
