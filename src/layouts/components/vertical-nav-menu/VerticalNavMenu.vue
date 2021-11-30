@@ -98,14 +98,6 @@
         title="塔科夫管理"
         :icon="icons.mdiControllerClassicOutline"
       >
-        <nav-menu-link
-          title="全局权限管理"
-          :to="{ name: 'permissions' }"
-        ></nav-menu-link>
-        <nav-menu-link
-          title="角色权限管理"
-          :to="{ name: 'rolePermissions' }"
-        ></nav-menu-link>
       </nav-menu-group>
       <nav-menu-group
         title="微信用户管理"
@@ -113,11 +105,11 @@
       >
         <nav-menu-link
           title="微信用户"
-          :to="{ name: 'permissions' }"
+          :to="{ name: 'weChatUsers' }"
         ></nav-menu-link>
         <nav-menu-link
           title="黑名单"
-          :to="{ name: 'rolePermissions' }"
+          :to="{ name: 'blackWeChatUsers' }"
         ></nav-menu-link>
       </nav-menu-group>
       <nav-menu-link

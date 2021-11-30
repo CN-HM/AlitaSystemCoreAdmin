@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <base-table
     :page="page"
     :page-count="pageCount"
@@ -9,75 +9,59 @@
     :edited-item="editedItem"
     :headers="headers"
     :createStatus="createStatus"
-    class="elevation-1"
     @init="init"
     @delete="remove"
     @post="post"
     @put="put"
-  ></base-table>
+  >
+  </base-table>
 </template>
 
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
-import { getUsers, deleteUsers, putUsers, postUsers } from '@/api/users'
+import { getWcChatUsers, deleteWcChatUsers, putWcChatUsers, postWcChatUsers } from '@/api/weChatUsers'
 
 export default {
-  components: {
-    BaseTable,
-  },
+  components: { BaseTable },
   data: () => ({
     search: '',
-    createStatus: true,
+    createStatus:false,
     dialog: false,
     dialogDelete: false,
     headers: [
       {
-        text: '头像',
+        text: '微信头像',
         align: 'start',
-        value: 'avatar',
+        value: 'weChatFace',
         sortable: true,
         editType: 'image',
         hidden: true,
       },
       {
-        text: '昵称',
+        text: '微信用户名',
         align: 'start',
-        value: 'nickname',
-        sortable: true,
-        rules: [v => (v != null && v.length > 0) || '请输入内容~'],
-      },
-      {
-        text: '用户名',
-        align: 'start',
-        value: 'userName',
+        value: 'weChatName',
         sortable: true,
         hidden: true,
       },
       {
-        text: '电话',
+        text: 'OpenId',
         align: 'start',
-        value: 'mobile',
+        value: 'openId',
         sortable: true,
+        hidden: true,
       },
       {
-        text: '描述',
+        text: 'UnionID',
         align: 'start',
-        value: 'description',
+        value: 'unionID',
         sortable: true,
-        editType: 'textarea',
-        rules: [v => (v != null && v.length > 0) || '请输入内容~'],
+        hidden: true,
       },
       {
         text: '登录次数',
         align: 'start',
         value: 'loginCount',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '最后登录时间',
-        align: 'start',
-        value: 'lastLoginTime',
         sortable: true,
         hidden: true,
       },
@@ -89,23 +73,9 @@ export default {
         hidden: true,
       },
       {
-        text: '创建人',
-        align: 'start',
-        value: 'createdUserName',
-        sortable: true,
-        hidden: true,
-      },
-      {
         text: '更新时间',
         align: 'start',
         value: 'updatedTime',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '更新人',
-        align: 'start',
-        value: 'updatedUserName',
         sortable: true,
         hidden: true,
       },
@@ -126,38 +96,30 @@ export default {
     ],
     desserts: [],
     editedIndex: -1,
-    editedItem: {
-      roleName: '',
-      description: '',
-      isDeleted: 0,
-    },
-    defaultItem: {
-      roleName: '',
-      description: '',
-      isDeleted: 0,
-    },
+    editedItem: { isDeleted: 0 },
+    defaultItem: { isDeleted: 0 },
     page: 1,
     pageCount: 1,
     itemsPerPage: 15,
-    title: '用户管理',
-    titleDes: '用户管理页面用于配置用户信息。',
+    title: '微信用户管理',
+    titleDes: '微信用户管理页面用于配置微信用户信息,可禁用用户。',
   }),
   methods: {
     async init() {
-      const { response } = await getUsers()
+      const { response } = await getWcChatUsers()
 
       return response
     },
     async remove(id) {
-      await deleteUsers(id)
+      await deleteWcChatUsers(id)
     },
     async put(editedItem) {
-      const { response } = await putUsers(editedItem)
+      const { response } = await putWcChatUsers(editedItem)
 
       return response
     },
     async post(editedItem) {
-      const { response } = await postUsers(editedItem)
+      const { response } = await postWcChatUsers(editedItem)
 
       return response
     },

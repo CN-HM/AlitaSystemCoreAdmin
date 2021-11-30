@@ -84,7 +84,7 @@ export const miniAppService = axios.create({
   timeout: timeoutNum, // request timeout
 })
 
-export const wcService = axios.create({
+export const weChatService = axios.create({
   validateStatus(status) {
     return validateStatusHandle(status)
   },
@@ -140,13 +140,13 @@ miniAppService.interceptors.response.use(
 )
 
 // request interceptor 微信接口
-wcService.interceptors.request.use(
+weChatService.interceptors.request.use(
   config => requestConfig(config),
   error => errorFun(error),
 )
 
 // response interceptor 微信接口拦截器
-wcService.interceptors.response.use(
+weChatService.interceptors.response.use(
 
   /**
    * If you want to get http information such as headers or status

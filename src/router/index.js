@@ -84,6 +84,16 @@ export const constantRoutes = [
     component: () => import('@/views/users/Users.vue'),
   },
   {
+    path: '/weChatUsers',
+    name: 'weChatUsers',
+    component: () => import('@/views/weChatUsers/WeChatUsers.vue'),
+  },
+  {
+    path: '/blackWeChatUsers',
+    name: 'blackWeChatUsers',
+    component: () => import('@/views/blackWeChatUsers/BlackWeChatUsers.vue'),
+  },
+  {
     path: '/simple-table',
     name: 'simple-table',
     component: () => import('@/views/simple-table/SimpleTable.vue'),

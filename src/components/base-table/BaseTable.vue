@@ -28,23 +28,11 @@
               <!-- 表格工具栏 -->
               <template v-slot:top>
                 <v-toolbar bottom>
-                  <v-dialog
-                    v-model="dialog"
-                    max-width="600px"
-                  >
+                  <v-dialog v-model="dialog" max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        color="primary"
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        新增
-                      </v-btn>
+                      <v-btn color="primary" :hidden="!baseCreateStatus" v-bind="attrs" v-on="on"> 新建 </v-btn>
                     </template>
-                    <v-form
-                      ref="editForm"
-                      lazy-validation
-                    >
+                    <v-form ref="editForm" lazy-validation>
                       <v-card>
                         <v-card-title>
                           <span class="text-h5">{{ formTitle }}</span>
@@ -54,7 +42,7 @@
                           <v-container>
                             <v-row>
                               <v-col
-                                v-for="(item,i) in baseHeaders.filter(c=>!c.hidden)"
+                                v-for="(item, i) in baseHeaders.filter(c => !c.hidden)"
                                 :key="i"
                                 cols="12"
                                 sm="6"
@@ -102,117 +90,68 @@
 
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                          <v-btn
-                            color="blue darken-1"
-                            text
-                            @click="close"
-                          >
-                            取消
-                          </v-btn>
-                          <v-btn
-                            color="primary"
-                            text
-                            @click="save"
-                          >
-                            保存
-                          </v-btn>
+                          <v-btn color="blue darken-1" text @click="close"> 取消 </v-btn>
+                          <v-btn color="primary" text @click="save"> 保存 </v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-form>
                   </v-dialog>
                   <v-spacer></v-spacer>
                   <!-- 搜索 -->
-                  <v-text-field
-                    v-model="search"
-                    label="搜索"
-                    single-line
-                    hide-details
-                  >
-                    <v-icon
-                      slot="append"
-                      color="red"
-                    >
+                  <v-text-field v-model="search" label="搜索" single-line hide-details>
+                    <v-icon slot="append" color="red">
                       {{ icons.mdiMagnify }}
                     </v-icon>
                   </v-text-field>
-                  <v-dialog
-                    v-model="dialogDelete"
-                    max-width="628px"
-                  >
+                  <v-dialog v-model="dialogDelete" max-width="628px">
                     <v-card>
                       <v-card-title>
                         <span class="text-h5">删除</span>
                       </v-card-title>
-                      <v-card-text>
-                        你确定要删除这个对象吗?
-                      </v-card-text>
+                      <v-card-text> 你确定要删除这个对象吗? </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn
-                          color="blue darken-1"
-                          text
-                          @click="closeDelete"
-                        >
-                          取消
-                        </v-btn>
-                        <v-btn
-                          color="primary"
-                          text
-                          @click="deleteItemConfirm"
-                        >
-                          确认
-                        </v-btn>
+                        <v-btn color="blue darken-1" text @click="closeDelete"> 取消 </v-btn>
+                        <v-btn color="primary" text @click="deleteItemConfirm"> 确认 </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
                 </v-toolbar>
               </template>
-              <!-- 通用操作栏模板 -->
-              <template v-slot:[`item.actions`]="{ item }">
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="editItem(item)"
-                >
-                  {{ icons.mdiPencil }}
-                </v-icon>
-                <v-icon
-                  small
-                  @click="deleteItem(item)"
-                >
-                  {{ icons.mdiDelete }}
-                </v-icon>
-              </template>
-              <!-- 通用删除模板 -->
-              <template v-slot:[`item.isDeleted`]="{ item }">
-                <v-chip
-                  :color="getColor(item.isDeleted)"
-                >
-                  {{ item.isDeleted === 0 ? '正常' : '禁用' }}
-                </v-chip>
-              </template>
-              <!-- 通用头像 -->
-              <template v-slot:[`item.avatar`]="{ item }">
-                <v-avatar size="36px">
-                  <img
-                    :src="item.avatar"
-                    alt=""
-                  >
-                </v-avatar>
+              <template
+                v-for="header in headers.filter(c => c.editType != undefined)"
+                v-slot:[`item.${header.value}`]="{ item }"
+              >
+                <div :key="header.value">
+                  <!-- 通用头像 -->
+                  <v-avatar size="36px" v-if="header.editType == 'image'">
+                    <img :src="item[header.value]" alt="" />
+                  </v-avatar>
+                  <!-- 通用状态模板 -->
+                  <v-chip small :color="getColor(item.isDeleted)" v-else-if="header.editType == 'switch'">
+                    {{ item.isDeleted === 0 ? '正常' : '禁用' }}
+                  </v-chip>
+                  <!-- 通用操作栏模板 -->
+                  <v-item-group multiple v-else-if="header.editType == 'actions'">
+                    <v-item>
+                      <v-icon small class="mr-2" @click="editItem(item)">
+                        {{ icons.mdiPencil }}
+                      </v-icon>
+                    </v-item>
+                    <v-item>
+                      <v-icon small @click="deleteItem(item)">
+                        {{ icons.mdiDelete }}
+                      </v-icon>
+                    </v-item>
+                  </v-item-group>
+                </div>
               </template>
             </v-data-table>
-            <div
-              class="text-center"
-              style="height:4rem"
-            >
+            <div class="text-center" style="height: 4rem">
               <v-row justify="center">
                 <v-col cols="6">
                   <v-container class="max-width">
-                    <v-pagination
-                      v-model="basePage"
-                      circle
-                      :length="basePageCount"
-                    ></v-pagination>
+                    <v-pagination v-model="basePage" circle :length="basePageCount"></v-pagination>
                   </v-container>
                 </v-col>
               </v-row>
@@ -225,9 +164,7 @@
 </template>
 
 <script>
-import {
-  mdiMagnify, mdiPencil, mdiCircleEditOutline, mdiDelete,
-} from '@mdi/js'
+import { mdiMagnify, mdiPencil, mdiCircleEditOutline, mdiDelete } from '@mdi/js'
 import deepClone from '@/utils/deep-clone'
 
 export default {
@@ -287,6 +224,13 @@ export default {
       required: true,
       default: null,
     },
+
+    // 是否开启新建
+    createStatus: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data: () => ({
     loading: true,
@@ -310,7 +254,7 @@ export default {
   watch: {
     dialog(val) {
       // eslint-disable-next-line no-unused-expressions
-      val ? (this.$refs.editForm === undefined || this.$refs.editForm.resetValidation()) : this.close()
+      val ? this.$refs.editForm === undefined || this.$refs.editForm.resetValidation() : this.close()
     },
     dialogDelete(val) {
       // eslint-disable-next-line no-unused-expressions
@@ -376,9 +320,9 @@ export default {
   setup(props) {
     // 深克隆
     const cloneProps = deepClone(props)
-
     return {
       baseHeaders: cloneProps.headers,
+      baseCreateStatus: cloneProps.createStatus,
       baseEditedItem: cloneProps.editedItem,
       baseDefaultItem: cloneProps.defaultItem,
       baseItemsPerPage: cloneProps.itemsPerPage,

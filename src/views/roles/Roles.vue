@@ -8,6 +8,7 @@
     :default-item="defaultItem"
     :edited-item="editedItem"
     :headers="headers"
+    :createStatus="createStatus"
     @init="init"
     @delete="remove"
     @post="post"
@@ -27,6 +28,7 @@ export default {
   },
   data: () => ({
     search: '',
+    createStatus:true,
     dialog: false,
     dialogDelete: false,
     headers: [
