@@ -1,24 +1,24 @@
 import { tarkovService } from '@/utils/request'
 
-export const getRoles = () => adminService.request({
-  url: 'api/Roles',
+export const getTkfArmor = () => tarkovService({
+  url: 'api/TarkovArmor',
   method: 'get',
 })
 
-export const postRoles = data => adminService({
-  url: 'api/Roles',
+export const postTkfArmor = data => tarkovService({
+  url: 'api/TarkovArmor',
   method: 'post',
   data,
 })
 
-export const putRoles = data => adminService({
-  url: 'api/Roles',
+export const putTkfArmor = data => tarkovService({
+  url: 'api/TarkovArmor',
   method: 'put',
   data,
 })
 
-export const deleteRoles = data => adminService({
-  url: 'api/Roles',
+export const deleteTkfArmor = data => tarkovService({
+  url: 'api/TarkovArmor',
   method: 'delete',
   data,
 })
