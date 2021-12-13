@@ -1,8 +1,6 @@
-import { login, getUserInfo } from '@/api/users'
-import {
-  removeToken, setToken, getToken, setRefreshToken, getRefreshToken,
-} from '@/utils/auth'
+import { getUserInfo, login } from '@/api/users'
 import router, { resetRouter } from '@/router'
+import { getRefreshToken, getToken, removeToken, setRefreshToken, setToken } from '@/utils/auth'
 
 const state = {
   token: getToken(),
@@ -51,20 +49,22 @@ const actions = {
     const { username, password } = userInfo
 
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password }).then(res => {
-        const { token, refreshToken } = res.response
+      login({ username: username.trim(), password })
+        .then(res => {
+          const { token, refreshToken } = res.response
 
-        // 设置基本token
-        commit('SET_TOKEN', token)
-        setToken(token)
+          // 设置基本token
+          commit('SET_TOKEN', token)
+          setToken(token)
 
-        // 设置刷新token
-        commit('SET_REFRESHTOKEN', refreshToken)
-        setRefreshToken(refreshToken)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+          // 设置刷新token
+          commit('SET_REFRESHTOKEN', refreshToken)
+          setRefreshToken(refreshToken)
+          resolve()
+        })
+        .catch(error => {
+          reject(error)
+        })
     })
   },
 
@@ -80,34 +80,30 @@ const actions = {
   // get user info
   getUserInfo({ commit }) {
     return new Promise((resolve, reject) => {
-      getUserInfo().then(res => {
-        if (!res) {
-          reject(new Error('Verification failed, please Login again.'))
-        }
+      getUserInfo()
+        .then(res => {
+          if (!res) {
+            reject(new Error('Verification failed, please Login again.'))
+          }
 
-        const {
-          permissions,
-          avatar,
-          nickname,
-          mobile,
-          id,
-        } = res.response
+          const { permissions, avatar, nickname, mobile, id } = res.response
 
-        // roles must be a non-empty array
-        if (!permissions || permissions.length <= 0) {
-          reject(new Error('getUserInfo: roles must be a non-null array!'))
-        }
+          // roles must be a non-empty array
+          if (!permissions || permissions.length <= 0) {
+            reject(new Error('getUserInfo: roles must be a non-null array!'))
+          }
 
-        commit('SET_USERID', id)
-        commit('SET_PERMISSIONS', permissions)
-        commit('SET_NAME', nickname)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', mobile)
+          commit('SET_USERID', id)
+          commit('SET_PERMISSIONS', permissions)
+          commit('SET_NAME', nickname)
+          commit('SET_AVATAR', avatar)
+          commit('SET_INTRODUCTION', mobile)
 
-        resolve(res.response)
-      }).catch(error => {
-        reject(error)
-      })
+          resolve(res.response)
+        })
+        .catch(error => {
+          reject(error)
+        })
     })
   },
 
@@ -140,7 +136,7 @@ const actions = {
     router.addRoutes(accessRoutes)
 
     // reset visited views and cached views 重置访问视图和缓存视图
-    dispatch('tagsView/delAllViews', null, { root: true })
+    // dispatch('tagsView/delAllViews', null, { root: true })
   },
 }
 

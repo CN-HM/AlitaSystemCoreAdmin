@@ -1,6 +1,6 @@
+import { getRefreshToken, getToken } from '@/utils/auth'
 import axios from 'axios'
 import store from '../store'
-import { getToken, getRefreshToken } from '@/utils/auth'
 
 const errorFun = error => {
   // do something with request error
@@ -14,12 +14,14 @@ const requestConfig = reConfig => {
   const config = reConfig
 
   // do something before request is sent
+
   if (store.getters.token && store.getters.refreshToken) {
     // let each request carry token
     // ['X-Token'] is a custom headers key
     // please modify it according to the actual situation
     config.headers.Authorization = `Bearer ${getToken()}`
     config.headers['X-Authorization'] = `Bearer ${getRefreshToken()}`
+    config.headers['Cache-Control'] = `no-cache`
   }
 
   return config
@@ -27,9 +29,7 @@ const requestConfig = reConfig => {
 
 const responseHandle = response => {
   const res = response.data
-  console.log(response)
 
-  // if the custom status is not 20000, it is judged as an error.
   if (response.status !== 200) {
     switch (response.status) {
       case 400:
@@ -37,9 +37,11 @@ const responseHandle = response => {
         break
       case 401:
         store.dispatch('message/error', '无权限访问~')
+        store.dispatch('user/logout')
         break
       case 403:
         store.dispatch('message/error', '未授权~')
+        store.dispatch('user/logout')
         break
       case 404:
         store.dispatch('message/error', '接口不存在~')
@@ -101,11 +103,10 @@ adminService.interceptors.request.use(
 
 // response interceptor 后台接口拦截器
 adminService.interceptors.response.use(
-
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
-  */
+   */
 
   /**
    * Determine the request status by custom status
@@ -124,11 +125,10 @@ tarkovService.interceptors.request.use(
 
 // response interceptor 小程序接口拦截器
 tarkovService.interceptors.response.use(
-
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
-  */
+   */
 
   /**
    * Determine the request status by custom status
@@ -147,11 +147,10 @@ weChatService.interceptors.request.use(
 
 // response interceptor 微信接口拦截器
 weChatService.interceptors.response.use(
-
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
-  */
+   */
 
   /**
    * Determine the request status by custom status

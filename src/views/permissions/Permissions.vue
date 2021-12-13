@@ -18,9 +18,7 @@
 
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
-import {
-  getAllPermissions, deletePermissions, putPermissions, postPermissions,
-} from '@/api/permission'
+import { getAllPermissions, deletePermissions, putPermissions, postPermissions } from '@/api/permission'
 
 export default {
   components: {
@@ -28,42 +26,91 @@ export default {
   },
   data: () => ({
     search: '',
-    createStatus:true,
+    createStatus: true,
     dialog: false,
     dialogDelete: false,
     headers: [
       {
-        text: '控制器名称', align: 'start', value: 'controllerName', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
+        text: '控制器名称',
+        align: 'start',
+        value: 'controllerName',
+        sortable: true,
+        required: true,
+        rules: [v => v.length > 0 || '请输入内容~'],
       },
       {
-        text: '控制器', align: 'start', value: 'controller', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
+        text: '控制器',
+        align: 'start',
+        value: 'controller',
+        sortable: true,
+        required: true,
+        rules: [v => v.length > 0 || '请输入内容~'],
       },
       {
-        text: 'Action名称', align: 'start', value: 'actionName', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
+        text: 'Action名称',
+        align: 'start',
+        value: 'actionName',
+        sortable: true,
+        required: true,
+        rules: [v => v.length > 0 || '请输入内容~'],
       },
       {
-        text: 'Action', align: 'start', value: 'action', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
+        text: 'Action',
+        align: 'start',
+        value: 'action',
+        sortable: true,
+        required: true,
+        rules: [v => v.length > 0 || '请输入内容~'],
       },
       {
-        text: '描述', align: 'start', value: 'description', sortable: true, required: true, rules: [v => v.length > 0 || '请输入内容~'],
+        text: '描述',
+        align: 'start',
+        value: 'description',
+        sortable: true,
+        required: true,
+        rules: [v => v.length > 0 || '请输入内容~'],
       },
       {
-        text: '创建时间', align: 'start', value: 'createdTime', sortable: true, hidden: true,
+        text: '创建时间',
+        align: 'start',
+        value: 'createdTime',
+        sortable: true,
+        hidden: true,
       },
       {
-        text: '创建人', align: 'start', value: 'createdUserName', sortable: true, hidden: true,
+        text: '创建人',
+        align: 'start',
+        value: 'createdUserName',
+        sortable: true,
+        hidden: true,
       },
       {
-        text: '更新时间', align: 'start', value: 'updatedTime', sortable: true, hidden: true,
+        text: '更新时间',
+        align: 'start',
+        value: 'updatedTime',
+        sortable: true,
+        hidden: true,
       },
       {
-        text: '更新人', align: 'start', value: 'updatedUserName', sortable: true, hidden: true,
+        text: '更新人',
+        align: 'start',
+        value: 'updatedUserName',
+        sortable: true,
+        hidden: true,
       },
       {
-        text: '是否禁用', align: 'start', value: 'isDeleted', sortable: true, editType: 'switch',
+        text: '是否禁用',
+        align: 'start',
+        value: 'isDeleted',
+        sortable: true,
+        editType: 'switch',
       },
       {
-        text: '操作', value: 'actions', sortable: false, hidden: true,
+        text: '操作',
+        value: 'actions',
+        sortable: false,
+        hidden: true,
+        editType: 'actions',
       },
     ],
     desserts: [],

@@ -18,7 +18,12 @@
 
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
-import { getUsers, deleteUsers, putUsers, postUsers } from '@/api/users'
+import {
+  getTarkovTaskgoods,
+  deleteTarkovTaskgood,
+  putTarkovTaskgood,
+  postTarkovTaskgood,
+} from '@/api/tarkovApi/tarkovTaskgoods'
 
 export default {
   components: {
@@ -30,67 +35,62 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
+// createdTime: "2021-01-01 01:29:28"
+// demand: "上交物品"
+// description: null
+// goodsImageUrl: "https://alitasystem.net/taskGoodsImage/MR-133_icon_2.png"
+// goodsName: "MP-133 12铅径 霰弹枪"
+// goodsNum: "2"
+// id: 1
+// isDeleted: 0
+// taskId: 1
+// updatedTime: "2021-01-07 20:29:24"
       {
-        text: '头像',
+        text: '图片',
         align: 'start',
-        value: 'avatar',
-        sortable: true,
-        editType: 'avatar',
+        value: 'goodsImageUrl',
+        width: 50,
+        sortable: false,
+        editType: 'image',
         hidden: true,
       },
       {
-        text: '昵称',
+        text: '名称',
         align: 'start',
-        value: 'nickname',
-        sortable: true,
+        value: 'goodsName',
+        sortable: false,
+        width: 120,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
       },
       {
-        text: '用户名',
+        text: '物品数量',
         align: 'start',
-        value: 'userName',
-        sortable: true,
-        hidden: true,
+        value: 'goodsNum',
+        width: 80,
+        sortable: false,
+        rules: [v => (v != null && v.length > 0) || '请输入内容~'],
       },
       {
-        text: '电话',
+        text: '需求',
         align: 'start',
-        value: 'mobile',
-        sortable: true,
+        value: 'demand',
+        width: 190,
+        sortable: false,
+        rules: [v => (v != null && v.length > 0) || '请输入内容~'],
       },
       {
         text: '描述',
         align: 'start',
         value: 'description',
-        sortable: true,
-        editType: 'textarea',
+        width: 280,
+        sortable: false,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
-      },
-      {
-        text: '登录次数',
-        align: 'start',
-        value: 'loginCount',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '最后登录时间',
-        align: 'start',
-        value: 'lastLoginTime',
-        sortable: true,
-        hidden: true,
       },
       {
         text: '创建时间',
         align: 'start',
         value: 'createdTime',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '创建人',
-        align: 'start',
-        value: 'createdUserName',
+        width: 100,
         sortable: true,
         hidden: true,
       },
@@ -98,13 +98,7 @@ export default {
         text: '更新时间',
         align: 'start',
         value: 'updatedTime',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '更新人',
-        align: 'start',
-        value: 'updatedUserName',
+        width: 100,
         sortable: true,
         hidden: true,
       },
@@ -112,12 +106,14 @@ export default {
         text: '是否禁用',
         align: 'start',
         value: 'isDeleted',
+        width: 50,
         sortable: true,
         editType: 'switch',
       },
       {
         text: '操作',
         value: 'actions',
+        width: 50,
         sortable: false,
         hidden: true,
         editType: 'actions',
@@ -138,26 +134,23 @@ export default {
     page: 1,
     pageCount: 1,
     itemsPerPage: 15,
-    title: '用户管理',
-    titleDes: '用户管理页面用于配置用户信息。',
+    title: '任务物品管理',
+    titleDes: '',
   }),
   methods: {
     async init() {
-      const { response } = await getUsers()
-
+      const { response } = await getTarkovTaskgoods()
       return response
     },
     async remove(id) {
-      await deleteUsers(id)
+      await deleteTarkovTaskgood(id)
     },
     async put(editedItem) {
-      const { response } = await putUsers(editedItem)
-
+      const { response } = await putTarkovTaskgood(editedItem)
       return response
     },
     async post(editedItem) {
-      const { response } = await postUsers(editedItem)
-
+      const { response } = await postTarkovTaskgood(editedItem)
       return response
     },
   },

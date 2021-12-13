@@ -9,7 +9,6 @@
     :edited-item="editedItem"
     :headers="headers"
     :createStatus="createStatus"
-    class="elevation-1"
     @init="init"
     @delete="remove"
     @post="post"
@@ -19,7 +18,12 @@
 
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
-import { getUsers, deleteUsers, putUsers, postUsers } from '@/api/users'
+import {
+  getTarkovSkilltypes,
+  deleteTarkovSkilltype,
+  putTarkovSkilltype,
+  postTarkovSkilltype,
+} from '@/api/tarkovApi/tarkovSkilltypes'
 
 export default {
   components: {
@@ -31,55 +35,34 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
+      // armorClass: 1
+      // armorSegments: "顶部、颈部"
+      // blocksHeadset: "否"
+      // createdTime: "2021-01-20 00:10:03"
+      // durability: "40"
+      // ergonomics: "-1"
+      // headwearImageUrl: "https://alitasystem.net/headwear/TK_FAST_Icon.png"
+      // headwearName: "Tac-Kek Fast MT Helmet (non-ballistic replica)"
+      // id: 28
+      // isDeleted: 0
+      // movementSpeed: "+0%"
+      // ricochetChance: "高"
+      // soundReduction: "None"
+      // turnSpeed: "+0%"
+      // updatedTime: "2021-01-20 00:10:03"
       {
-        text: '头像',
+        text: '名称',
         align: 'start',
-        value: 'avatar',
-        sortable: true,
-        editType: 'image',
-        hidden: true,
-      },
-      {
-        text: '昵称',
-        align: 'start',
-        value: 'nickname',
-        sortable: true,
+        value: 'skillTypeName',
+        sortable: false,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
-      },
-      {
-        text: '用户名',
-        align: 'start',
-        value: 'userName',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '电话',
-        align: 'start',
-        value: 'mobile',
-        sortable: true,
       },
       {
         text: '描述',
         align: 'start',
         value: 'description',
-        sortable: true,
-        editType: 'textarea',
+        sortable: false,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
-      },
-      {
-        text: '登录次数',
-        align: 'start',
-        value: 'loginCount',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '最后登录时间',
-        align: 'start',
-        value: 'lastLoginTime',
-        sortable: true,
-        hidden: true,
       },
       {
         text: '创建时间',
@@ -89,23 +72,9 @@ export default {
         hidden: true,
       },
       {
-        text: '创建人',
-        align: 'start',
-        value: 'createdUserName',
-        sortable: true,
-        hidden: true,
-      },
-      {
         text: '更新时间',
         align: 'start',
         value: 'updatedTime',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '更新人',
-        align: 'start',
-        value: 'updatedUserName',
         sortable: true,
         hidden: true,
       },
@@ -139,26 +108,23 @@ export default {
     page: 1,
     pageCount: 1,
     itemsPerPage: 15,
-    title: '用户管理',
-    titleDes: '用户管理页面用于配置用户信息。',
+    title: '技能类型管理',
+    titleDes: '',
   }),
   methods: {
     async init() {
-      const { response } = await getUsers()
-
+      const { response } = await getTarkovSkilltypes()
       return response
     },
     async remove(id) {
-      await deleteUsers(id)
+      await deleteTarkovSkilltype(id)
     },
     async put(editedItem) {
-      const { response } = await putUsers(editedItem)
-
+      const { response } = await putTarkovSkilltype(editedItem)
       return response
     },
     async post(editedItem) {
-      const { response } = await postUsers(editedItem)
-
+      const { response } = await postTarkovSkilltype(editedItem)
       return response
     },
   },

@@ -42,11 +42,9 @@
         </v-badge>
         <div
           class="d-inline-flex flex-column justify-center ms-3"
-          style="vertical-align:middle"
+          style="vertical-align: middle"
         >
-          <span class="text--primary font-weight-semibold mb-n1">
-            John Doe
-          </span>
+          <span class="text--primary font-weight-semibold mb-n1"> John Doe </span>
           <small class="text--disabled text-capitalize">Admin</small>
         </div>
       </div>
@@ -93,8 +91,7 @@
             inline
             color="error"
             content="2"
-          >
-          </v-badge>
+          > </v-badge>
         </v-list-item-action>
       </v-list-item>
 
@@ -139,7 +136,10 @@
       <v-divider class="my-2"></v-divider>
 
       <!-- Logout -->
-      <v-list-item link>
+      <v-list-item
+        link
+        @click.prevent="handleLogout"
+      >
         <v-list-item-icon class="me-2">
           <v-icon size="22">
             {{ icons.mdiLogoutVariant }}
@@ -166,6 +166,23 @@ import {
 } from '@mdi/js'
 
 export default {
+  methods: {
+    handleLogout() {
+      this.$store
+        .dispatch('user/logout')
+        .then(() => {
+          // 弹出提示框
+          this.$store.dispatch('message/warning', '用户已注销!!!')
+
+          setTimeout(() => {
+            // 跳转首页
+            this.$router.replace({ path: 'login' })
+          }, 1500)
+        })
+        .catch(() => {})
+        .finally(() => {})
+    },
+  },
   setup() {
     return {
       icons: {

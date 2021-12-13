@@ -34,7 +34,7 @@ export default {
         align: 'start',
         value: 'weChatFace',
         sortable: true,
-        editType: 'image',
+        editType: 'avatar',
         hidden: true,
       },
       {

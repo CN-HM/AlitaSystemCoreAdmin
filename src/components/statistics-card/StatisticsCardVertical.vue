@@ -36,8 +36,9 @@
         <span class="font-weight-semibold text-2xl me-1 mb-2">{{ statistics }}</span>
         <span
           class="percentage text-xs mb-2"
-          :class="checkChange(change) ? 'success--text':'error--text'"
-        > {{ change }}</span>
+          :class="checkChange(change) ? 'success--text' : 'error--text'"
+        >
+          {{ change }}</span>
       </div>
       <p class="text-xs text--secondary mb-0">
         {{ subtitle }}

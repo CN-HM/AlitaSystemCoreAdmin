@@ -1,9 +1,9 @@
-import NProgress from 'nprogress' // progress bar
-import router from './router'
-import store from './store'
-import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
+import router from './router'
+import store from './store'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -40,9 +40,11 @@ router.beforeEach(async (to, from, next) => {
           const accessRoutes = await store.dispatch('permission/generateRoutes', permissions)
 
           // dynamically add accessible routes 动态添加可访问的路由
-          router.addRoutes(accessRoutes)
+          accessRoutes.forEach(item => {
+            router.addRoute(item)
+          })
 
-          // hack method to ensure that addRoutes is complete hack方法以确保addRoutes是完整的
+          // hack method to ensure that addRoute is complete hack方法以确保addRoute是完整的
           // set the replace: true, so the navigation will not leave a history record 设置replace:true，这样导航将不会留下历史记录
           next({ ...to, replace: true })
         } catch (error) {
@@ -51,7 +53,7 @@ router.beforeEach(async (to, from, next) => {
           store.dispatch('message/warning', error || 'Has Error')
 
           setTimeout(() => {
-            next(`/login?redirect=${to.path}`)
+            return next(`/login?redirect=${to.path}`)
           }, 1000)
 
           NProgress.done()

@@ -9,6 +9,7 @@
     :edited-item="editedItem"
     :headers="headers"
     :createStatus="createStatus"
+    :editDetailStatus="true"
     @init="init"
     @delete="remove"
     @post="post"
@@ -18,7 +19,7 @@
 
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
-import { getUsers, deleteUsers, putUsers, postUsers } from '@/api/users'
+import { getTarkovSkills, deleteTarkovSkill, putTarkovSkill, postTarkovSkill } from '@/api/tarkovApi/tarkovSkills'
 
 export default {
   components: {
@@ -30,55 +31,48 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
+      // createdTime: null
+      // description: "耐力影响跑步和跳跃时耐力消耗，以及屏息消耗和恢复呼吸的速度"
+      // id: 3
+      // isDeleted: 0
+      // skillEffects: "[\"增加耐力(+150%精英级)\",\"减少跳跃耐力消耗(-50%精英级)\",\"增加屏气时间(+100%精英级)\",\"精英级:+150%耐力\",\"精英级:增加双手耐力\",\"精英级:体力消耗不会导致呼吸暂停\"]"
+      // skillHideout: "[\"加热等级2需要该技能的1级\",\"安全等级2需要该技能的2级\"]"
+      // skillImageUrl: "https://alitasystem.net/skills/Endurance.png"
+      // skillName: "耐力"
+      // skillRaise: "[\"冲刺\",\"不超重时走路(即黄色或红色)\",\"瞄准屏息\"]"
+      // skillType: null
+      // skillTypeId: 1
+      // updatedTime: "2021-01-25 20:19:09"
+      // skillTypeName
       {
-        text: '头像',
+        text: '图片',
         align: 'start',
-        value: 'avatar',
-        sortable: true,
-        editType: 'avatar',
+        value: 'skillImageUrl',
+        sortable: false,
+        editType: 'image',
         hidden: true,
       },
       {
-        text: '昵称',
+        text: '名称',
         align: 'start',
-        value: 'nickname',
-        sortable: true,
+        value: 'skillName',
+        sortable: false,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
       },
       {
-        text: '用户名',
+        text: '类型',
         align: 'start',
-        value: 'userName',
-        sortable: true,
-        hidden: true,
+        value: 'skillTypeName',
+        sortable: false,
+        rules: [v => (v != null && v.length > 0) || '请输入内容~'],
       },
-      {
-        text: '电话',
-        align: 'start',
-        value: 'mobile',
-        sortable: true,
-      },
+
       {
         text: '描述',
         align: 'start',
         value: 'description',
-        sortable: true,
-        editType: 'textarea',
+        sortable: false,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
-      },
-      {
-        text: '登录次数',
-        align: 'start',
-        value: 'loginCount',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '最后登录时间',
-        align: 'start',
-        value: 'lastLoginTime',
-        sortable: true,
-        hidden: true,
       },
       {
         text: '创建时间',
@@ -88,23 +82,9 @@ export default {
         hidden: true,
       },
       {
-        text: '创建人',
-        align: 'start',
-        value: 'createdUserName',
-        sortable: true,
-        hidden: true,
-      },
-      {
         text: '更新时间',
         align: 'start',
         value: 'updatedTime',
-        sortable: true,
-        hidden: true,
-      },
-      {
-        text: '更新人',
-        align: 'start',
-        value: 'updatedUserName',
         sortable: true,
         hidden: true,
       },
@@ -138,26 +118,23 @@ export default {
     page: 1,
     pageCount: 1,
     itemsPerPage: 15,
-    title: '用户管理',
-    titleDes: '用户管理页面用于配置用户信息。',
+    title: '技能管理',
+    titleDes: '',
   }),
   methods: {
     async init() {
-      const { response } = await getUsers()
-
+      const { response } = await getTarkovSkills()
       return response
     },
     async remove(id) {
-      await deleteUsers(id)
+      await deleteTarkovSkill(id)
     },
     async put(editedItem) {
-      const { response } = await putUsers(editedItem)
-
+      const { response } = await putTarkovSkill(editedItem)
       return response
     },
     async post(editedItem) {
-      const { response } = await postUsers(editedItem)
-
+      const { response } = await postTarkovSkill(editedItem)
       return response
     },
   },

@@ -25,21 +25,17 @@
       </v-btn>
     </template>
 
-    <v-card
-      class="elevation-0"
-      max-width="400"
-    >
+    <v-card class="elevation-0" max-width="400">
       <v-img
         max-width="400"
         eager
         :src="require('@/assets/images/pro/materio-banner.png')"
         alt="materio-pro-banner"
       ></v-img>
-      <v-card-title class="font-weight-semibold">
-        Materio - Vuetify Admin Template
-      </v-card-title>
+      <v-card-title class="font-weight-semibold"> Materio - Vuetify Admin Template </v-card-title>
       <v-card-text>
-        Materio Admin is the most developer friendly &amp; highly customisable Admin Dashboard Template based on Vuetify.
+        Materio Admin is the most developer friendly &amp; highly customisable Admin Dashboard Template based on
+        Vuetify.
       </v-card-text>
       <v-card-text>
         <span>Click on below button to explore PRO version.</span>

@@ -24,9 +24,7 @@
           class="app-logo me-3"
         ></v-img>
         <v-slide-x-transition>
-          <h2 class="app-title text--primary">
-            AlitaSystem
-          </h2>
+          <h2 class="app-title text--primary">AlitaSystem</h2>
         </v-slide-x-transition>
       </router-link>
     </div>
@@ -44,7 +42,7 @@
       ></nav-menu-link>
       <nav-menu-link
         title="账户设置"
-        :to="{ name: 'pages-account-settings'}"
+        :to="{ name: 'pages-account-settings' }"
         :icon="icons.mdiAccountCogOutline"
       ></nav-menu-link>
       <!-- <nav-menu-group
@@ -98,6 +96,42 @@
         title="塔科夫管理"
         :icon="icons.mdiControllerClassicOutline"
       >
+        <nav-menu-link
+          title="防弹衣"
+          :to="{ name: 'tarkovArmors' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="子弹口径"
+          :to="{ name: 'tarkovBulletcalibers' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="子弹"
+          :to="{ name: 'tarkovBullets' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="商人"
+          :to="{ name: 'tarkovBusinessmans' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="胸挂"
+          :to="{ name: 'tarkovChestrigs' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="头盔"
+          :to="{ name: 'tarkovHeadwears' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="技能类型"
+          :to="{ name: 'tarkovSkilltypes' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="技能"
+          :to="{ name: 'tarkovSkills' }"
+        ></nav-menu-link>
+        <nav-menu-link
+          title="任务物品"
+          :to="{ name: 'tarkovTaskgoods' }"
+        ></nav-menu-link>
       </nav-menu-group>
       <nav-menu-group
         title="微信用户管理"
@@ -161,7 +195,6 @@ import {
   mdiShieldAccountOutline,
   mdiControllerClassicOutline,
   mdiAccountGroupOutline,
-
   mdiHomeOutline,
   mdiAlphaTBoxOutline,
   mdiEyeOutline,

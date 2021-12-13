@@ -1,7 +1,7 @@
 <template>
   <v-snackbar
-    :value="visible"
     top
+    :value="visible"
     text
     :color="color"
     :vertical="vertical"
@@ -10,14 +10,12 @@
     <!-- 关闭按钮 -->
     <template v-slot:action="{ attrs }">
       <v-btn
-        v-if="showClose"
-        :color="color"
-        v-bind="attrs"
         text
+        :color="color"
+        v-if="showClose"
+        v-bind="attrs"
         @click="visible = false"
-      >
-        Close
-      </v-btn>
+      > Close </v-btn>
     </template>
   </v-snackbar>
 </template>
@@ -37,7 +35,6 @@ export default {
       return this.$store.state.message.color
     },
   },
-  methods: {
-  },
+  methods: {},
 }
 </script>
