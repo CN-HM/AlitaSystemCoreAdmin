@@ -91,7 +91,8 @@
             inline
             color="error"
             content="2"
-          > </v-badge>
+          >
+          </v-badge>
         </v-list-item-action>
       </v-list-item>
 

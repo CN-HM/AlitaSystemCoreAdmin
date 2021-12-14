@@ -8,7 +8,7 @@
     :default-item="defaultItem"
     :edited-item="editedItem"
     :headers="headers"
-    :createStatus="createStatus"
+    :create-status="createStatus"
     @init="init"
     @delete="remove"
     @post="post"
@@ -35,16 +35,16 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-// createdTime: "2021-01-01 01:29:28"
-// demand: "上交物品"
-// description: null
-// goodsImageUrl: "https://alitasystem.net/taskGoodsImage/MR-133_icon_2.png"
-// goodsName: "MP-133 12铅径 霰弹枪"
-// goodsNum: "2"
-// id: 1
-// isDeleted: 0
-// taskId: 1
-// updatedTime: "2021-01-07 20:29:24"
+      // createdTime: "2021-01-01 01:29:28"
+      // demand: "上交物品"
+      // description: null
+      // goodsImageUrl: "https://alitasystem.net/taskGoodsImage/MR-133_icon_2.png"
+      // goodsName: "MP-133 12铅径 霰弹枪"
+      // goodsNum: "2"
+      // id: 1
+      // isDeleted: 0
+      // taskId: 1
+      // updatedTime: "2021-01-07 20:29:24"
       {
         text: '图片',
         align: 'start',
@@ -140,6 +140,7 @@ export default {
   methods: {
     async init() {
       const { response } = await getTarkovTaskgoods()
+
       return response
     },
     async remove(id) {
@@ -147,10 +148,12 @@ export default {
     },
     async put(editedItem) {
       const { response } = await putTarkovTaskgood(editedItem)
+
       return response
     },
     async post(editedItem) {
       const { response } = await postTarkovTaskgood(editedItem)
+
       return response
     },
   },

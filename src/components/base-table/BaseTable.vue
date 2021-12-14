@@ -38,7 +38,9 @@
                         :hidden="!createStatus"
                         v-bind="attrs"
                         v-on="on"
-                      > 新建 </v-btn>
+                      >
+                        新建
+                      </v-btn>
                     </template>
                     <v-form
                       ref="editForm"
@@ -105,12 +107,16 @@
                             color="blue darken-1"
                             text
                             @click="close"
-                          > 取消 </v-btn>
+                          >
+                            取消
+                          </v-btn>
                           <v-btn
                             color="primary"
                             text
                             @click="save"
-                          > 保存 </v-btn>
+                          >
+                            保存
+                          </v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-form>
@@ -145,12 +151,16 @@
                           color="blue darken-1"
                           text
                           @click="closeDelete"
-                        > 取消 </v-btn>
+                        >
+                          取消
+                        </v-btn>
                         <v-btn
                           color="primary"
                           text
                           @click="deleteItemConfirm"
-                        > 确认 </v-btn>
+                        >
+                          确认
+                        </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
@@ -163,16 +173,16 @@
                 <div :key="header.value">
                   <!-- 通用图片 -->
                   <v-img
-                    class="my-1 rounded"
                     v-if="header.editType == 'image'"
+                    class="my-1 rounded"
                     contain
                     max-width="45"
                     :src="item[header.value]"
                   ></v-img>
                   <!-- 通用头像 -->
                   <v-avatar
-                    size="36px"
                     v-if="header.editType == 'avatar'"
+                    size="36px"
                   >
                     <img
                       :src="item[header.value]"
@@ -181,16 +191,16 @@
                   </v-avatar>
                   <!-- 通用状态模板 -->
                   <v-chip
+                    v-else-if="header.editType == 'switch'"
                     small
                     :color="getColor(item.isDeleted)"
-                    v-else-if="header.editType == 'switch'"
                   >
                     {{ item[header.value] === 0 ? '正常' : '禁用' }}
                   </v-chip>
                   <!-- 通用操作栏模板 -->
                   <v-item-group
-                    multiple
                     v-else-if="header.editType == 'actions'"
+                    multiple
                   >
                     <v-item>
                       <v-icon
@@ -237,7 +247,9 @@
 </template>
 
 <script>
-import { mdiMagnify, mdiPencil, mdiCircleEditOutline, mdiDelete } from '@mdi/js'
+import {
+  mdiMagnify, mdiPencil, mdiCircleEditOutline, mdiDelete,
+} from '@mdi/js'
 import deepClone from '@/utils/deep-clone'
 
 export default {
@@ -349,18 +361,16 @@ export default {
     getColor(isDeleted) {
       return isDeleted === 0 ? 'success' : 'error'
     },
-    async initialize() {      
-      this.desserts = await this.$parent.init()    
-      this.loading = false  
+    async initialize() {
+      this.desserts = await this.$parent.init()
+      this.loading = false
     },
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item)
       this.baseEditedItem = { ...item }
       this.dialog = true
     },
-    editDetailItem(){
-
-    },
+    editDetailItem() {},
     deleteItem(item) {
       this.editedIndex = this.desserts.indexOf(item)
       this.baseEditedItem = { ...item }
@@ -404,9 +414,10 @@ export default {
   setup(props) {
     // 深克隆
     const cloneProps = deepClone(props)
+
     return {
-      //baseHeaders: cloneProps.headers,
-      //baseCreateStatus: cloneProps.createStatus,     
+      // baseHeaders: cloneProps.headers,
+      // baseCreateStatus: cloneProps.createStatus,
       baseEditedItem: cloneProps.editedItem,
       baseDefaultItem: cloneProps.defaultItem,
       baseItemsPerPage: cloneProps.itemsPerPage,

@@ -147,7 +147,6 @@
 </template>
 
 <script>
-// import { mdiFacebook, mdiTwitter, mdiGithub, mdiGoogle, mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { ref } from '@vue/composition-api'
 import { validUserName, validUserPassword } from '@/utils/validate'
@@ -180,7 +179,8 @@ export default {
         // 开启loading
         this.loginLoading = true
 
-        this.$store.dispatch('user/login', this.loginFormData)
+        this.$store
+          .dispatch('user/login', this.loginFormData)
           .then(() => {
             this.$store.dispatch('message/success', '登陆成功!!!')
 
@@ -189,9 +189,7 @@ export default {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
             }, 1500)
           })
-          .catch(() => {
-
-          })
+          .catch(() => {})
           .finally(() => {
             this.loginLoading = false
           })

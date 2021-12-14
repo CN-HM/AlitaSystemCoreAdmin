@@ -8,7 +8,7 @@
     :default-item="defaultItem"
     :edited-item="editedItem"
     :headers="headers"
-    :createStatus="createStatus"
+    :create-status="createStatus"
     @init="init"
     @delete="remove"
     @post="post"
@@ -18,7 +18,9 @@
 
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
-import { getRoles, deleteRoles, putRoles, postRoles } from '@/api/roles'
+import {
+  getRoles, deleteRoles, putRoles, postRoles,
+} from '@/api/roles'
 
 export default {
   components: {

@@ -8,7 +8,7 @@
     :default-item="defaultItem"
     :edited-item="editedItem"
     :headers="headers"
-    :createStatus="createStatus"
+    :create-status="createStatus"
     @init="init"
     @delete="remove"
     @post="post"
@@ -35,21 +35,21 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-// armorClass: 1
-// armorSegments: "顶部、颈部"
-// blocksHeadset: "否"
-// createdTime: "2021-01-20 00:10:03"
-// durability: "40"
-// ergonomics: "-1"
-// headwearImageUrl: "https://alitasystem.net/headwear/TK_FAST_Icon.png"
-// headwearName: "Tac-Kek Fast MT Helmet (non-ballistic replica)"
-// id: 28
-// isDeleted: 0
-// movementSpeed: "+0%"
-// ricochetChance: "高"
-// soundReduction: "None"
-// turnSpeed: "+0%"
-// updatedTime: "2021-01-20 00:10:03"
+      // armorClass: 1
+      // armorSegments: "顶部、颈部"
+      // blocksHeadset: "否"
+      // createdTime: "2021-01-20 00:10:03"
+      // durability: "40"
+      // ergonomics: "-1"
+      // headwearImageUrl: "https://alitasystem.net/headwear/TK_FAST_Icon.png"
+      // headwearName: "Tac-Kek Fast MT Helmet (non-ballistic replica)"
+      // id: 28
+      // isDeleted: 0
+      // movementSpeed: "+0%"
+      // ricochetChance: "高"
+      // soundReduction: "None"
+      // turnSpeed: "+0%"
+      // updatedTime: "2021-01-20 00:10:03"
       {
         text: '图片',
         align: 'start',
@@ -65,7 +65,7 @@ export default {
         width: 140,
         sortable: false,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
-      },      
+      },
       {
         text: '防护部位',
         align: 'start',
@@ -115,7 +115,7 @@ export default {
         sortable: false,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
       },
-       {
+      {
         text: '跳弹率',
         align: 'start',
         value: 'ricochetChance',
@@ -148,8 +148,8 @@ export default {
       {
         text: '是否禁用',
         align: 'start',
-        value: 'isDeleted',        
-        width:50,
+        value: 'isDeleted',
+        width: 50,
         sortable: true,
         editType: 'switch',
       },
@@ -182,6 +182,7 @@ export default {
   methods: {
     async init() {
       const { response } = await getTarkovHeadwears()
+
       return response
     },
     async remove(id) {
@@ -189,10 +190,12 @@ export default {
     },
     async put(editedItem) {
       const { response } = await putTarkovHeadwear(editedItem)
+
       return response
     },
     async post(editedItem) {
       const { response } = await postTarkovHeadwear(editedItem)
+
       return response
     },
   },

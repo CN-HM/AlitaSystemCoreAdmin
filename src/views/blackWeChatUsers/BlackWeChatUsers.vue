@@ -8,7 +8,7 @@
     :default-item="defaultItem"
     :edited-item="editedItem"
     :headers="headers"
-    :createStatus="createStatus"
+    :create-status="createStatus"
     @init="init"
     @delete="remove"
     @post="post"
@@ -18,7 +18,9 @@
 
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
-import { getWcChatUsers, deleteWcChatUsers, putWcChatUsers, postWcChatUsers } from '@/api/weChatUsers'
+import {
+  getWcChatUsers, deleteWcChatUsers, putWcChatUsers, postWcChatUsers,
+} from '@/api/weChatUsers'
 
 export default {
   components: {
@@ -26,7 +28,7 @@ export default {
   },
   data: () => ({
     search: '',
-    createStatus:false,
+    createStatus: false,
     dialog: false,
     dialogDelete: false,
     headers: [

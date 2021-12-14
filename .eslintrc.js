@@ -1,38 +1,29 @@
 module.exports = {
   root: true,
-
   env: {
     node: true,
   },
-
   extends: ['eslint:recommended', 'plugin:vue/recommended', '@vue/airbnb'],
-
   parserOptions: {
     parser: 'babel-eslint',
   },
-
   rules: {
-    'vue/valid-v-slot': ['error', {
-      allowModifiers: true,
-    }],
-
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-restricted-syntax': 'off',
+
+    // recommended by Vetur
     'vue/html-self-closing': 'off',
 
+    // Disable max-len
     'max-len': 'off',
 
-    semi: [
-      'error',
-      'never'
-    ],
+    // we don't want it
+    semi: ['error', 'never'],
 
-    'arrow-parens': [
-      'error',
-      'as-needed'
-    ],
+    // add parens ony when required in arrow function
+    'arrow-parens': ['error', 'as-needed'],
 
+    // add new line above comment
     'lines-around-comment': [
       'error',
       {
@@ -41,20 +32,17 @@ module.exports = {
         allowBlockStart: true,
         allowClassStart: true,
         allowObjectStart: true,
-        allowArrayStart: true
-      }
+        allowArrayStart: true,
+      },
     ],
 
     'linebreak-style': 'off',
 
+    // add new line above comment
     'newline-before-return': 'error',
 
-    'import/newline-after-import': [
-      'error',
-      {
-        count: 1
-      }
-    ],
+    // add new line below import
+    'import/newline-after-import': ['error', { count: 1 }],
 
     'import/extensions': [
       'error',
@@ -68,17 +56,5 @@ module.exports = {
     ],
 
     'global-require': 'off',
-
-    'vue/max-attributes-per-line': 'error',
-
-    'no-plusplus': 'off',
-
   },
-
-  'extends': [
-    'eslint:recommended',
-    'plugin:vue/recommended',
-    '@vue/airbnb',
-    'plugin:vue/essential'
-  ]
 }

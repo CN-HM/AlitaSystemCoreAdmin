@@ -8,7 +8,7 @@
     :default-item="defaultItem"
     :edited-item="editedItem"
     :headers="headers"
-    :createStatus="createStatus"
+    :create-status="createStatus"
     @init="init"
     @delete="remove"
     @post="post"
@@ -164,6 +164,7 @@ export default {
   methods: {
     async init() {
       const { response } = await getTarkovBusinessmans()
+
       return response
     },
     async remove(id) {
@@ -171,10 +172,12 @@ export default {
     },
     async put(editedItem) {
       const { response } = await putTarkovBusinessman(editedItem)
+
       return response
     },
     async post(editedItem) {
       const { response } = await postTarkovBusinessman(editedItem)
+
       return response
     },
   },

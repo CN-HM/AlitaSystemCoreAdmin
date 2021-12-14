@@ -8,7 +8,7 @@
     :default-item="defaultItem"
     :edited-item="editedItem"
     :headers="headers"
-    :createStatus="createStatus"
+    :create-status="createStatus"
     @init="init"
     @delete="remove"
     @post="post"
@@ -18,7 +18,9 @@
 
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
-import { getTarkovArmors, deleteTarkovArmor, putTarkovArmor, postTarkovArmor } from '@/api/tarkovApi/tarkovArmor'
+import {
+  getTarkovArmors, deleteTarkovArmor, putTarkovArmor, postTarkovArmor,
+} from '@/api/tarkovApi/tarkovArmor'
 
 export default {
   components: {
@@ -55,7 +57,7 @@ export default {
         text: '名称',
         align: 'start',
         value: 'name',
-        width:200,
+        width: 200,
         sortable: false,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
       },
@@ -65,7 +67,7 @@ export default {
         value: 'class',
         sortable: true,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
-      },      
+      },
       {
         text: '耐用性',
         align: 'end',

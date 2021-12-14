@@ -1,5 +1,5 @@
-import { getRefreshToken, getToken } from '@/utils/auth'
 import axios from 'axios'
+import { getRefreshToken, getToken } from '@/utils/auth'
 import store from '../store'
 
 const errorFun = error => {
@@ -21,7 +21,7 @@ const requestConfig = reConfig => {
     // please modify it according to the actual situation
     config.headers.Authorization = `Bearer ${getToken()}`
     config.headers['X-Authorization'] = `Bearer ${getRefreshToken()}`
-    config.headers['Cache-Control'] = `no-cache`
+    config.headers['Cache-Control'] = 'no-cache'
   }
 
   return config
@@ -103,6 +103,7 @@ adminService.interceptors.request.use(
 
 // response interceptor 后台接口拦截器
 adminService.interceptors.response.use(
+
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
@@ -125,6 +126,7 @@ tarkovService.interceptors.request.use(
 
 // response interceptor 小程序接口拦截器
 tarkovService.interceptors.response.use(
+
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
@@ -147,6 +149,7 @@ weChatService.interceptors.request.use(
 
 // response interceptor 微信接口拦截器
 weChatService.interceptors.response.use(
+
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response

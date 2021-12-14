@@ -8,7 +8,7 @@
     :default-item="defaultItem"
     :edited-item="editedItem"
     :headers="headers"
-    :createStatus="createStatus"
+    :create-status="createStatus"
     @init="init"
     @delete="remove"
     @post="post"
@@ -35,20 +35,20 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-// cellsImageUrl: "https://alitasystem.net/chestrigslayout/Alpha_Rig_Slots.png"
-// cellsNum: 20
-// chestrigsImageUrl: "https://alitasystem.net/chestrigs/Alpha_Rig_icon.png"
-// class: 0
-// createdTime: null
-// durable: null
-// ergonomics: null
-// id: 57
-// isDeleted: 0
-// movingSpeed: null
-// name: "ANA Tactical Alpha胸挂"
-// protectedLocation: null
-// turningSpeed: null
-// updatedTime: "2021-01-07 13:25:44"
+      // cellsImageUrl: "https://alitasystem.net/chestrigslayout/Alpha_Rig_Slots.png"
+      // cellsNum: 20
+      // chestrigsImageUrl: "https://alitasystem.net/chestrigs/Alpha_Rig_icon.png"
+      // class: 0
+      // createdTime: null
+      // durable: null
+      // ergonomics: null
+      // id: 57
+      // isDeleted: 0
+      // movingSpeed: null
+      // name: "ANA Tactical Alpha胸挂"
+      // protectedLocation: null
+      // turningSpeed: null
+      // updatedTime: "2021-01-07 13:25:44"
       {
         text: '图片',
         align: 'start',
@@ -79,7 +79,7 @@ export default {
         value: 'class',
         sortable: true,
         rules: [v => (v != null && v.length > 0) || '请输入内容~'],
-      },      
+      },
       {
         text: '耐用性',
         align: 'end',
@@ -141,8 +141,8 @@ export default {
       {
         text: '是否禁用',
         align: 'start',
-        value: 'isDeleted',        
-        width:50,
+        value: 'isDeleted',
+        width: 50,
         sortable: true,
         editType: 'switch',
       },
@@ -175,6 +175,7 @@ export default {
   methods: {
     async init() {
       const { response } = await getTarkovChestrigs()
+
       return response
     },
     async remove(id) {
@@ -182,10 +183,12 @@ export default {
     },
     async put(editedItem) {
       const { response } = await putTarkovChestrig(editedItem)
+
       return response
     },
     async post(editedItem) {
       const { response } = await postTarkovChestrig(editedItem)
+
       return response
     },
   },

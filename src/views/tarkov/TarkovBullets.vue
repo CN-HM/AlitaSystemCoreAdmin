@@ -8,7 +8,7 @@
     :default-item="defaultItem"
     :edited-item="editedItem"
     :headers="headers"
-    :createStatus="createStatus"
+    :create-status="createStatus"
     @init="init"
     @delete="remove"
     @post="post"
@@ -18,7 +18,9 @@
 
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
-import { getTarkovBullets, deleteTarkovBullet, putTarkovBullet, postTarkovBullet } from '@/api/tarkovApi/tarkovBullets'
+import {
+  getTarkovBullets, deleteTarkovBullet, putTarkovBullet, postTarkovBullet,
+} from '@/api/tarkovApi/tarkovBullets'
 
 export default {
   components: {
@@ -202,6 +204,7 @@ export default {
   methods: {
     async init() {
       const { response } = await getTarkovBullets()
+
       return response
     },
     async remove(id) {
@@ -209,10 +212,12 @@ export default {
     },
     async put(editedItem) {
       const { response } = await putTarkovBullet(editedItem)
+
       return response
     },
     async post(editedItem) {
       const { response } = await postTarkovBullet(editedItem)
+
       return response
     },
   },

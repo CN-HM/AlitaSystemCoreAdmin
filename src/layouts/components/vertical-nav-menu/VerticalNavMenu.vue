@@ -1,15 +1,21 @@
 <template>
   <v-navigation-drawer
+    v-model="drawer"
+    :mini-variant.sync="isDrawerOpen"
     :value="isDrawerOpen"
     app
     floating
+    mini-variant-width="56"
     width="260"
     class="app-navigation-menu"
     :right="$vuetify.rtl"
     @input="val => $emit('update:is-drawer-open', val)"
   >
     <!-- Navigation Header -->
-    <div class="vertical-nav-header d-flex items-center ps-6 pe-5 pt-5 pb-2">
+    <div
+      class="vertical-nav-header d-flex items-center ps-6 pe-5 pt-5 pb-2"
+      @click="isDrawerOpen = !isDrawerOpen"
+    >
       <router-link
         to="/"
         class="d-flex align-center text-decoration-none"
@@ -24,7 +30,9 @@
           class="app-logo me-3"
         ></v-img>
         <v-slide-x-transition>
-          <h2 class="app-title text--primary">AlitaSystem</h2>
+          <h2 class="app-title text--primary">
+            AlitaSystem
+          </h2>
         </v-slide-x-transition>
       </router-link>
     </div>
@@ -222,6 +230,7 @@ export default {
   },
   setup() {
     return {
+      drawer: true,
       icons: {
         mdiShieldAccountOutline,
         mdiShieldLockOutline,
