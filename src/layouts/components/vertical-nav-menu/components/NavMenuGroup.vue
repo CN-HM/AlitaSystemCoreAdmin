@@ -5,7 +5,7 @@
   >
     <template #prependIcon>
       <v-icon :class="{'alternate-icon-small': !icon}">
-        {{ icon }}
+        {{ icon || alternateIcon }}
       </v-icon>
     </template>
     <template #activator>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mdiCheckboxBlankCircleOutline } from '@mdi/js'
 export default {
   props: {
     title: {
@@ -31,7 +32,9 @@ export default {
     },
   },
   setup() {
-    return {}
+    return {
+      alternateIcon: mdiCheckboxBlankCircleOutline,
+    }
   },
 }
 </script>
@@ -50,6 +53,7 @@ export default {
       margin-top: 0;
       margin-bottom: 0;
       align-self: center;
+      justify-content: center;
     }
   }
 
@@ -90,9 +94,9 @@ export default {
 //   }
 // }
 
-// .alternate-icon-small {
-//   font-size: 14px;
-//   height: 14px;
-//   width: 14px;
-// }
+.alternate-icon-small {
+  font-size: 14px;
+  height: 14px;
+  width: 14px;
+}
 </style>

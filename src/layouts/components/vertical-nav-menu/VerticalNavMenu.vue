@@ -128,18 +128,22 @@
           title="头盔"
           :to="{ name: 'tarkovHeadwears' }"
         ></nav-menu-link>
-        <nav-menu-link
-          title="技能类型"
-          :to="{ name: 'tarkovSkilltypes' }"
-        ></nav-menu-link>
-        <nav-menu-link
-          title="技能"
-          :to="{ name: 'tarkovSkills' }"
-        ></nav-menu-link>
-        <nav-menu-link
-          title="任务物品"
-          :to="{ name: 'tarkovTaskgoods' }"
-        ></nav-menu-link>
+        <nav-menu-group title="技能管理">
+          <nav-menu-link
+            title="技能类型"
+            :to="{ name: 'tarkovSkilltypes' }"
+          ></nav-menu-link>
+          <nav-menu-link
+            title="技能"
+            :to="{ name: 'tarkovSkills' }"
+          ></nav-menu-link>
+        </nav-menu-group>
+        <nav-menu-group title="任务管理">
+          <nav-menu-link
+            title="任务物品"
+            :to="{ name: 'tarkovTaskgoods' }"
+          ></nav-menu-link>
+        </nav-menu-group>
       </nav-menu-group>
       <nav-menu-group
         title="微信用户管理"

@@ -129,9 +129,9 @@ export const constantRoutes = [
     component: () => import('@/views/tarkov/TarkovSkilltypes.vue'),
   },
   {
-    path: '/tarkovTaskgoods',
-    name: 'tarkovTaskgoods',
-    component: () => import('@/views/tarkov/TarkovTaskgoods.vue'),
+    path: '/tarkovGoods',
+    name: 'tarkovGoods',
+    component: () => import('@/views/tarkov/TarkovGoods.vue'),
   },
   {
     path: '/tarkovSkills',

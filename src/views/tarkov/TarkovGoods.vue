@@ -19,11 +19,8 @@
 <script>
 import BaseTable from '@/components/base-table/BaseTable.vue'
 import {
-  getTarkovTaskgoods,
-  deleteTarkovTaskgood,
-  putTarkovTaskgood,
-  postTarkovTaskgood,
-} from '@/api/tarkovApi/tarkovTaskgoods'
+  getTarkovGoods, deleteTarkovGood, putTarkovGood, postTarkovGood,
+} from '@/api/tarkovApi/tarkovGoods'
 
 export default {
   components: {
@@ -139,20 +136,20 @@ export default {
   }),
   methods: {
     async init() {
-      const { response } = await getTarkovTaskgoods()
+      const { response } = await getTarkovGoods()
 
       return response
     },
     async remove(id) {
-      await deleteTarkovTaskgood(id)
+      await deleteTarkovGood(id)
     },
     async put(editedItem) {
-      const { response } = await putTarkovTaskgood(editedItem)
+      const { response } = await putTarkovGood(editedItem)
 
       return response
     },
     async post(editedItem) {
-      const { response } = await postTarkovTaskgood(editedItem)
+      const { response } = await postTarkovGood(editedItem)
 
       return response
     },
