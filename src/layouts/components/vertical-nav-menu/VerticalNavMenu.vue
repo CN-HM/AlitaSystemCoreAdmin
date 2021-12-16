@@ -1,8 +1,7 @@
 <template>
   <v-navigation-drawer
-    v-model="drawer"
-    :mini-variant.sync="isDrawerOpen"
-    :value="isDrawerOpen"
+    :mini-variant.sync="mini"
+    :value="drawer"
     app
     floating
     mini-variant-width="56"
@@ -14,7 +13,7 @@
     <!-- Navigation Header -->
     <div
       class="vertical-nav-header d-flex items-center ps-6 pe-5 pt-5 pb-2"
-      @click="isDrawerOpen = !isDrawerOpen"
+      @click="mini = !mini"
     >
       <router-link
         to="/"
@@ -232,9 +231,18 @@ export default {
       default: null,
     },
   },
+  data: () => ({
+    mini: true,
+    drawer: true,
+  }),
+  watch: {
+    isDrawerOpen(val) {
+      this.mini = !val
+      this.drawer = val
+    },
+  },
   setup() {
     return {
-      drawer: true,
       icons: {
         mdiShieldAccountOutline,
         mdiShieldLockOutline,
@@ -266,7 +274,7 @@ export default {
 
 // ? Adjust this `translateX` value to keep logo in center when vertical nav menu is collapsed (Value depends on your logo)
 .app-logo {
-  transition: all 0.18s ease-in-out;
+  transition: all 0.2s ease-in-out;
   .v-navigation-drawer--mini-variant & {
     transform: translateX(-4px);
   }

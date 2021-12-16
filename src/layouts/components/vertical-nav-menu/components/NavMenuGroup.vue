@@ -20,6 +20,7 @@
 
 <script>
 import { mdiCheckboxBlankCircleOutline } from '@mdi/js'
+
 export default {
   props: {
     title: {
@@ -48,7 +49,7 @@ export default {
     margin-top: 0.375rem;
     height: 44px;
     min-height: 44px;
-
+    min-width: 56px;
     .v-list-item__icon {
       margin-top: 0;
       margin-bottom: 0;

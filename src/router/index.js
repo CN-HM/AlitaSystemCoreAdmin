@@ -443,15 +443,14 @@ export const constantRoutes = [
 //   // { path: '*', redirect: '/404', hidden: true }
 // ]
 
-const createRouter = () =>
-  new Router({
-    mode: 'history',
-    base: process.env.BASE_URL,
+const createRouter = () => new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
 
-    // mode: 'history', // require service support
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes,
-  })
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes,
+})
 
 const router = createRouter()
 
