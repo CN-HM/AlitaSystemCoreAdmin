@@ -27,9 +27,10 @@ export default {
       type: String,
       required: true,
     },
+    // eslint-disable-next-line vue/require-default-prop
     icon: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   setup() {

@@ -140,7 +140,7 @@
         <nav-menu-group title="任务管理">
           <nav-menu-link
             title="任务物品"
-            :to="{ name: 'tarkovTaskgoods' }"
+            :to="{ name: 'tarkovGoods' }"
           ></nav-menu-link>
         </nav-menu-group>
       </nav-menu-group>
